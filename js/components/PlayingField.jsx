@@ -1,16 +1,28 @@
 "use strict"
 
 import React from 'react'
-import { CurrentBlock } from './CurrentBlock.jsx'
+import { CurrentPiece } from './CurrentPiece.jsx'
 import { FallenBlocks } from './FallenBlocks.jsx'
 
 export class PlayingField extends React.Component {
   render() {
+    let rectWidth = this.props.gameSpec.width *
+                    this.props.gameSpec.blockSize;
+    let rectHeight = this.props.gameSpec.height * 
+                     this.props.gameSpec.blockSize;
+
     return (
       <g>
-        <rect x="240" y="0" width="240" height="480" fill="#E6E6FA">
-        </rect>
-        <CurrentBlock />
+        <rect
+          x={this.props.x}
+          y={this.props.y}
+          width={rectWidth}
+          height={rectHeight}
+          fill="#E6E6FA"
+        />
+        <CurrentPiece
+
+        />
         <FallenBlocks />
       </g>
     );
