@@ -3,7 +3,9 @@ export function setInitialState() {
     type: 'SET_INITIAL_STATE',
     data: {
       dimensions: [10, 20],
-      blockSize: 10
+      blockSize: 20,
+      currentPiece: undefined,
+      fallenBlocks: undefined
     }
   }
 }

@@ -8,8 +8,8 @@ import {  } from '../actions.js'
 export class Tetris extends React.Component {
   render() {
     let gameSpecs = {
-      width: this.props.dimensions.get('x'),
-      height: this.props.dimensions.get('y'),
+      fieldWidth: this.props.dimensions.get('x'),
+      fieldHeight: this.props.dimensions.get('y'),
       blockSize: this.props.blockSize
     }
 

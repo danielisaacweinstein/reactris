@@ -6,10 +6,12 @@ import { FallenBlocks } from './FallenBlocks.jsx'
 
 export class PlayingField extends React.Component {
   render() {
-    let rectWidth = this.props.gameSpec.width *
-                    this.props.gameSpec.blockSize;
-    let rectHeight = this.props.gameSpec.height * 
-                     this.props.gameSpec.blockSize;
+    let gameSpecs = this.props.gameSpecs;
+
+    let rectWidth = gameSpecs.fieldWidth *
+                    gameSpecs.blockSize;
+    let rectHeight = gameSpecs.fieldHeight * 
+                     gameSpecs.blockSize;
 
     return (
       <g>
@@ -21,7 +23,7 @@ export class PlayingField extends React.Component {
           fill="#E6E6FA"
         />
         <CurrentPiece
-
+          gameSpecs={gameSpecs}
         />
         <FallenBlocks />
       </g>
