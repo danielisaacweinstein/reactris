@@ -19,3 +19,8 @@ export function moveLeft() {
     type: "MOVE_LEFT"
   }
 }
+export function moveRight() {
+  return {
+    type: "MOVE_RIGHT"
+  }
+}

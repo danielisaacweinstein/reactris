@@ -53,6 +53,23 @@ function moveLeft(state, incomingData) {
   return newState; 
 }
 
+function moveRight(state, incomingData) {
+  let newState = state.updateIn(['currentPiece', 'blockCoordinates'],
+    (pairs) => {
+      return pairs.map(
+        (pair) => {
+          return pair.update('0',
+            (xValue) => {
+              return xValue + 20
+            }
+          )
+        }
+      )
+    });
+
+  return newState;   
+}
+
 function reducer(state = Immutable.Map(), action) {
   console.log(action.type);
   switch (action.type) {
@@ -62,6 +79,8 @@ function reducer(state = Immutable.Map(), action) {
       return descend(state, action.data);
     case 'MOVE_LEFT':
       return moveLeft(state, action.data);
+    case 'MOVE_RIGHT':
+      return moveRight(state, action.data);
   }
   return state;
 }

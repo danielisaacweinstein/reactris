@@ -3,7 +3,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { Game } from './Game.jsx'
-import { descend, moveLeft } from '../actions.js'
+import { descend, moveLeft, moveRight } from '../actions.js'
 
 export class Tetris extends React.Component {
   componentWillMount() {
@@ -19,6 +19,9 @@ export class Tetris extends React.Component {
       }
       if (e.keyCode === 37) {
         this.props.dispatch(moveLeft());
+      }
+      if (e.keyCode === 39) {
+        this.props.dispatch(moveRight());
       }
     }
   }
