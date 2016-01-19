@@ -9,12 +9,13 @@ import { fallingPieceColliding } from '../helpers.js'
 export class Tetris extends React.Component {
   componentWillMount() {
     document.onkeydown = (e) => {
-      if (fallingPieceColliding(this.props.gameSpec,
-                                this.props.fallingPieces,
-                                this.props.fallenPieces)) {
-        // this.props.dispatch(lockCurrentPiece());
-        // this.props.dispatch(getNewCurrentPiece());
-      } else {
+      // if (fallingPieceColliding(this.props.gameSpec,
+      //                           this.props.fallingPieces,
+      //                           this.props.fallenPieces)) {
+      //   // this.props.dispatch(lockCurrentPiece());
+      //   // this.props.dispatch(getNewCurrentPiece());
+      // } else {
+
         if (e.keyCode === 40) {
           this.props.dispatch(descend());
         }
@@ -24,7 +25,8 @@ export class Tetris extends React.Component {
         if (e.keyCode === 39) {
           this.props.dispatch(moveRight());
         }
-      }
+        
+      // }
     }
   }
 

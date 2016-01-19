@@ -4,16 +4,14 @@ import { getColor } from './helpers.js'
 // Return new state representing an object with currentPiece
 // mapping to object of its attributes.
 function setInitialState(state, incomingData) {
-  let [width, height] = incomingData.dimensions
-
   let nextState = {
     gameSpec: {
-      fieldWidth: width,
-      fieldHeight: height,
+      widthRatio: incomingData.dimensions[0],
+      heightRatio: incomingData.dimensions[1],
       blockSize: incomingData.blockSize
     },
     fallingPieces: [{
-      x: (width / 2) * incomingData.blockSize,
+      x: (incomingData.dimensions[0] / 2) * incomingData.blockSize,
       y: 0,
       color: getColor()
     }],
@@ -26,54 +24,45 @@ function setInitialState(state, incomingData) {
 // Return new state with all yCoordinates of currentPiece
 // descended by the size of the block.
 function descend(state, incomingData) {
-  let newState = state.updateIn(['currentPiece', 'blockCoordinates'],
-    (pairs) => {
-      return pairs.map(
-        (pair) => {
-          return pair.update('1',
-            (yValue) => {
-              return yValue + 20
-            }
-          )
+  let nextState = state.update('fallingPieces',
+    (blocks) => {
+      return blocks.map(
+        (block) => {
+          return block.update('y', (yValue) => yValue + 20)
         }
       )
-    });
+    }
+  )
 
-  return newState;
+  return nextState;
 }
 
 function moveLeft(state, incomingData) {
-  let newState = state.updateIn(['currentPiece', 'blockCoordinates'],
-    (pairs) => {
-      return pairs.map(
-        (pair) => {
-          return pair.update('0',
-            (xValue) => {
-              return xValue - 20
-            }
-          )
+  let nextState = state.update('fallingPieces',
+    (blocks) => {
+      return blocks.map(
+        (block) => {
+          return block.update('x', (xValue) => xValue - 20)
         }
       )
-    });
+    }
+  )
 
-  return newState; 
+  return nextState; 
 }
 
 function moveRight(state, incomingData) {
-  let newState = state.updateIn(['currentPiece', 'blockCoordinates'],
-    (pairs) => {
-      return pairs.map(
-        (pair) => {
-          return pair.update('0',
-            (xValue) => {
-              return xValue + 20
-            }
-          )
+  let nextState = state.update('fallingPieces',
+    (blocks) => {
+      return blocks.map(
+        (block) => {
+          return block.update('x', (xValue) => xValue + 20)
         }
       )
-    });
+    }
+  )
 
-  return newState;   
+  return nextState;  
 }
 
 function reducer(state = Immutable.Map(), action) {

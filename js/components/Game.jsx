@@ -10,8 +10,8 @@ export class Game extends React.Component {
     // Create SVG with width double that of playing field
     return (
       <svg
-        width={gameSpec.get('fieldWidth') * gameSpec.get('blockSize') * 2}
-        height={gameSpec.get('fieldHeight') * gameSpec.get('blockSize')}>
+        width={gameSpec.get('widthRatio') * gameSpec.get('blockSize') * 2}
+        height={gameSpec.get('heightRatio') * gameSpec.get('blockSize')}>
         <PlayingField
           gameSpec={gameSpec}
           fallingPieces={this.props.fallingPieces}

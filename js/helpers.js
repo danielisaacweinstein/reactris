@@ -1,5 +1,12 @@
 export function fallingPieceColliding(gameSpec, fallingPieces, fallenPieces) {
-  debugger;
+
+
+
+  // for each block in fallingPieces, take the bottom line.
+  // iterate through each of the tops of each block to see if the x and y line up
+
+  return false;
+
 }
 
 export function getColor() {
