@@ -3,16 +3,11 @@ import * as Immutable from 'immutable'
 // Return new state representing an object with currentPiece
 // mapping to object of its attributes.
 function setInitialState(state, incomingData) {
-  let width = incomingData.dimensions[0];
-  let height = incomingData.dimensions[1];
-  let blockSize = incomingData.blockSize;
+  let [width, height] = incomingData.dimensions
+  let { blockSize } = incomingData;
 
   let xCurrentPiece = (width / 2) * blockSize;
   let yCurrentPiece = 0;
-
-  let initialPiece = {
-    blockCoordinates: [xCurrentPiece, yCurrentPiece]
-  }
 
   let nextState = {currentPiece:
                     {blockCoordinates: [[xCurrentPiece,
@@ -22,19 +17,40 @@ function setInitialState(state, incomingData) {
   return state.merge(nextState)
 }
 
+// Return new state with all yCoordinates of currentPiece
+// descended by the size of the block.
 function descend(state, incomingData) {
   let newState = state.updateIn(['currentPiece', 'blockCoordinates'],
     (pairs) => {
       return pairs.map(
         (pair) => {
-          return pair.update('1', (yValue) => {
-            return yValue + 20
-          })
+          return pair.update('1',
+            (yValue) => {
+              return yValue + 20
+            }
+          )
         }
       )
     });
 
   return newState;
+}
+
+function moveLeft(state, incomingData) {
+  let newState = state.updateIn(['currentPiece', 'blockCoordinates'],
+    (pairs) => {
+      return pairs.map(
+        (pair) => {
+          return pair.update('0',
+            (xValue) => {
+              return xValue - 20
+            }
+          )
+        }
+      )
+    });
+
+  return newState; 
 }
 
 function reducer(state = Immutable.Map(), action) {
@@ -44,6 +60,8 @@ function reducer(state = Immutable.Map(), action) {
       return setInitialState(state, action.data);
     case 'DESCEND':
       return descend(state, action.data);
+    case 'MOVE_LEFT':
+      return moveLeft(state, action.data);
   }
   return state;
 }

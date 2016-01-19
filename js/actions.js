@@ -10,9 +10,12 @@ export function setInitialState() {
 
 export function descend() {
   return {
-    type: "DESCEND",
-    data: {
+    type: "DESCEND"
+  }
+}
 
-    }
+export function moveLeft() {
+  return {
+    type: "MOVE_LEFT"
   }
 }
