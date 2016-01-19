@@ -22,11 +22,28 @@ function setInitialState(state, incomingData) {
   return state.merge(nextState)
 }
 
+function descend(state, incomingData) {
+  let newState = state.updateIn(['currentPiece', 'blockCoordinates'],
+    (pairs) => {
+      return pairs.map(
+        (pair) => {
+          return pair.update('1', (yValue) => {
+            return yValue + 20
+          })
+        }
+      )
+    });
+
+  return newState;
+}
+
 function reducer(state = Immutable.Map(), action) {
   console.log(action.type);
   switch (action.type) {
     case 'SET_INITIAL_STATE':
       return setInitialState(state, action.data);
+    case 'DESCEND':
+      return descend(state, action.data);
   }
   return state;
 }

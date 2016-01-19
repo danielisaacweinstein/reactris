@@ -7,3 +7,12 @@ export function setInitialState() {
     }
   }
 }
+
+export function descend() {
+  return {
+    type: "DESCEND",
+    data: {
+
+    }
+  }
+}
