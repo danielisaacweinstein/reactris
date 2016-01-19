@@ -1,4 +1,5 @@
 import * as Immutable from 'immutable'
+import { getColor } from './helpers.js'
 
 // Return new state representing an object with currentPiece
 // mapping to object of its attributes.
@@ -9,10 +10,9 @@ function setInitialState(state, incomingData) {
   let xCurrentPiece = (width / 2) * blockSize;
   let yCurrentPiece = 0;
 
-  let nextState = {currentPiece:
-                    {blockCoordinates: [[xCurrentPiece,
-                                        yCurrentPiece]]}
-                  }
+  let nextState = {currentPiece: {blockCoordinates: [[xCurrentPiece,
+                                                      yCurrentPiece]],
+                   color: getColor()}}
 
   return state.merge(nextState)
 }

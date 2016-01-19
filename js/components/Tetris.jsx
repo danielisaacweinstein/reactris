@@ -3,7 +3,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { Game } from './Game.jsx'
-import { descend, moveLeft, moveRight } from '../actions.js'
+import { moveLeft, moveRight, descend } from '../actions.js'
 
 export class Tetris extends React.Component {
   componentWillMount() {

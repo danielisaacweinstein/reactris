@@ -16,7 +16,7 @@ export class PlayingField extends React.Component {
           y="0"
           width={fieldWidth * blockSize}
           height={fieldHeight * blockSize}
-          fill="#E6E6FA"
+          fill="#e6edf0"
         />
         <CurrentPiece
           gameSpecs={this.props.gameSpecs}
