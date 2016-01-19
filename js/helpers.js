@@ -1,3 +1,7 @@
+export function fallingPieceColliding(gameSpec, fallingPieces, fallenPieces) {
+  debugger;
+}
+
 export function getColor() {
   let colors = [
     "#2e86ab",

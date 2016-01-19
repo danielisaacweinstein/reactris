@@ -5,16 +5,16 @@ import { PlayingField } from './PlayingField.jsx'
 
 export class Game extends React.Component {
   render() {
-    let gameSpecs = this.props.gameSpecs;
+    let gameSpec = this.props.gameSpec;
 
     // Create SVG with width double that of playing field
     return (
       <svg
-        width={gameSpecs.fieldWidth * gameSpecs.blockSize * 2}
-        height={gameSpecs.fieldHeight * gameSpecs.blockSize}>
+        width={gameSpec.get('fieldWidth') * gameSpec.get('blockSize') * 2}
+        height={gameSpec.get('fieldHeight') * gameSpec.get('blockSize')}>
         <PlayingField
-          gameSpecs={this.props.gameSpecs}
-          currentPiece={this.props.currentPiece}
+          gameSpec={gameSpec}
+          fallingPieces={this.props.fallingPieces}
         />
       </svg>
     );

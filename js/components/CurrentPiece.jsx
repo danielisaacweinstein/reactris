@@ -4,18 +4,18 @@ import React from 'react'
 
 export class CurrentPiece extends React.Component {
 
-  getBlocks(current) {
-    let { blockSize } = this.props.gameSpecs;
+  getBlocks(pieces) {
+    let { blockSize } = this.props.gameSpec.toJS();
+    let coordinatePairs = pieces.toJS();
 
-    let coordinatePairs = current.get('blockCoordinates').toJS()
     let rects = coordinatePairs.map((c, index) => {
       return (
         <rect
-          x={c[0]}
-          y={c[1]}
+          x={c.x}
+          y={c.y}
           width={blockSize}
           height={blockSize}
-          fill={current.get('color')}
+          fill={pieces.get('color')}
           key={index}
         />
       )
@@ -27,7 +27,7 @@ export class CurrentPiece extends React.Component {
   render() {
     return (
       <g>
-        {this.getBlocks(this.props.currentPiece)}
+        {this.getBlocks(this.props.fallingPieces)}
       </g>
     )
   }

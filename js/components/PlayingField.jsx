@@ -7,7 +7,7 @@ import { FallenBlocks } from './FallenBlocks.jsx'
 export class PlayingField extends React.Component {
   render() {
 
-    let {fieldWidth, fieldHeight, blockSize} = this.props.gameSpecs;
+    let {fieldWidth, fieldHeight, blockSize} = this.props.gameSpec.toJS();
 
     return (
       <g>
@@ -19,8 +19,8 @@ export class PlayingField extends React.Component {
           fill="#e6edf0"
         />
         <CurrentPiece
-          gameSpecs={this.props.gameSpecs}
-          currentPiece={this.props.currentPiece}
+          gameSpec={this.props.gameSpec}
+          fallingPieces={this.props.fallingPieces}
         />
         <FallenBlocks />
       </g>

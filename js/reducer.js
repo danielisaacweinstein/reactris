@@ -5,14 +5,20 @@ import { getColor } from './helpers.js'
 // mapping to object of its attributes.
 function setInitialState(state, incomingData) {
   let [width, height] = incomingData.dimensions
-  let { blockSize } = incomingData;
 
-  let xCurrentPiece = (width / 2) * blockSize;
-  let yCurrentPiece = 0;
-
-  let nextState = {currentPiece: {blockCoordinates: [[xCurrentPiece,
-                                                      yCurrentPiece]],
-                   color: getColor()}}
+  let nextState = {
+    gameSpec: {
+      fieldWidth: width,
+      fieldHeight: height,
+      blockSize: incomingData.blockSize
+    },
+    fallingPieces: [{
+      x: (width / 2) * incomingData.blockSize,
+      y: 0,
+      color: getColor()
+    }],
+    fallenPieces: []
+  }
 
   return state.merge(nextState)
 }

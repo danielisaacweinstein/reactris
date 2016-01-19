@@ -4,24 +4,26 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { Game } from './Game.jsx'
 import { moveLeft, moveRight, descend } from '../actions.js'
+import { fallingPieceColliding } from '../helpers.js'
 
 export class Tetris extends React.Component {
   componentWillMount() {
-    this.gameSpecs = {
-      fieldWidth: 10,
-      fieldHeight: 20,
-      blockSize: 20      
-    }
-
     document.onkeydown = (e) => {
-      if (e.keyCode === 40) {
-        this.props.dispatch(descend());
-      }
-      if (e.keyCode === 37) {
-        this.props.dispatch(moveLeft());
-      }
-      if (e.keyCode === 39) {
-        this.props.dispatch(moveRight());
+      if (fallingPieceColliding(this.props.gameSpec,
+                                this.props.fallingPieces,
+                                this.props.fallenPieces)) {
+        // this.props.dispatch(lockCurrentPiece());
+        // this.props.dispatch(getNewCurrentPiece());
+      } else {
+        if (e.keyCode === 40) {
+          this.props.dispatch(descend());
+        }
+        if (e.keyCode === 37) {
+          this.props.dispatch(moveLeft());
+        }
+        if (e.keyCode === 39) {
+          this.props.dispatch(moveRight());
+        }
       }
     }
   }
@@ -30,8 +32,8 @@ export class Tetris extends React.Component {
     return (
       <div>
         <Game
-          currentPiece={this.props.currentPiece}
-          gameSpecs={this.gameSpecs}
+          fallingPieces={this.props.fallingPieces}
+          gameSpec={this.props.gameSpec}
         />
       </div>
     );
@@ -40,7 +42,9 @@ export class Tetris extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    currentPiece: state.get('currentPiece')
+    fallingPieces: state.get('fallingPieces'),
+    fallenPieces: state.get('fallenPieces'),
+    gameSpec: state.get('gameSpec')
   }
 }
 
