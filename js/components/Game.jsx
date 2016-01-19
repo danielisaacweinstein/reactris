@@ -13,9 +13,8 @@ export class Game extends React.Component {
         width={gameSpecs.fieldWidth * gameSpecs.blockSize * 2}
         height={gameSpecs.fieldHeight * gameSpecs.blockSize}>
         <PlayingField
-          x={0}
-          y={0}
           gameSpecs={this.props.gameSpecs}
+          currentPiece={this.props.currentPiece}
         />
       </svg>
     );

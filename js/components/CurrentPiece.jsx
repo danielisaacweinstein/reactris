@@ -3,11 +3,31 @@
 import React from 'react'
 
 export class CurrentPiece extends React.Component {
+
+  getBlocks(current) {
+    let coordinatePairs = current.get('blockCoordinates').toJS()
+    let rects = coordinatePairs.map((c, index) => {
+      return (
+        <rect
+          x={c[0]}
+          y={c[1]}
+          width="20"
+          height="20"
+          fill="black"
+          key={index}
+        />
+      )
+    });
+
+    return rects;
+  }
+
   render() {
-    let gameSpecs = this.props.gameSpecs;
 
     return (
-      <rect x="10" y="10" width="24" height="24" fill="black" />
-    );
+      <g>
+        {this.getBlocks(this.props.currentPiece)}
+      </g>
+    )
   }
 }

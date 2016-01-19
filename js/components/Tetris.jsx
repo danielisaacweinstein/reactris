@@ -7,15 +7,17 @@ import {  } from '../actions.js'
 
 export class Tetris extends React.Component {
   render() {
+    // debugger;
     let gameSpecs = {
-      fieldWidth: this.props.dimensions.get('x'),
-      fieldHeight: this.props.dimensions.get('y'),
-      blockSize: this.props.blockSize
+      fieldWidth: 10,
+      fieldHeight: 20,
+      blockSize: 20
     }
 
     return (
       <div>
         <Game
+          currentPiece={this.props.currentPiece}
           gameSpecs={gameSpecs}
         />
       </div>
@@ -25,8 +27,9 @@ export class Tetris extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    dimensions: state.get('dimensions'),
-    blockSize: state.get('blockSize')
+    currentPiece: state.get('currentPiece')
+    // dimensions: state.get('dimensions'),
+    // blockSize: state.get('blockSize')
   }
 }
 

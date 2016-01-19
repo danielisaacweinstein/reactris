@@ -8,22 +8,21 @@ export class PlayingField extends React.Component {
   render() {
     let gameSpecs = this.props.gameSpecs;
 
-    let rectWidth = gameSpecs.fieldWidth *
-                    gameSpecs.blockSize;
-    let rectHeight = gameSpecs.fieldHeight * 
-                     gameSpecs.blockSize;
+    let rectWidth = gameSpecs.fieldWidth * gameSpecs.blockSize;
+    let rectHeight = gameSpecs.fieldHeight * gameSpecs.blockSize;
 
     return (
       <g>
         <rect
-          x={this.props.x}
-          y={this.props.y}
+          x="0"
+          y="0"
           width={rectWidth}
           height={rectHeight}
           fill="#E6E6FA"
         />
         <CurrentPiece
           gameSpecs={gameSpecs}
+          currentPiece={this.props.currentPiece}
         />
         <FallenBlocks />
       </g>
