@@ -1,5 +1,8 @@
 import * as Immutable from 'immutable'
-import { getColor, hasPieceHitBottom, lockFallingBlocks } from './helpers.js'
+import { getColor,
+         hasPieceHitBottom,
+         lockFallingBlocks,
+         initiateNewFallingPiece } from './helpers.js'
 
 // Return new state representing an object with currentPiece
 // mapping to object of its attributes.
@@ -38,7 +41,7 @@ function descend(state, incomingData) {
     )
   } else {
     nextState = lockFallingBlocks(state);
-    debugger;
+    nextState = initiateNewFallingPiece(nextState);
   }
 
   return nextState;

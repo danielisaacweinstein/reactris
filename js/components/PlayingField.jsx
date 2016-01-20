@@ -1,7 +1,8 @@
 "use strict"
 
 import React from 'react'
-import { Blocks } from './Blocks.jsx'
+import { FallenBlocks } from './FallenBlocks.jsx'
+import { FallingBlocks } from './FallingBlocks.jsx'
 
 export class PlayingField extends React.Component {
   render() {
@@ -17,9 +18,12 @@ export class PlayingField extends React.Component {
           height={heightRatio * blockSize}
           fill="#e6edf0"
         />
-        <Blocks
+        <FallingBlocks
           gameSpec={this.props.gameSpec}
           fallingPieces={this.props.fallingPieces}
+        />
+        <FallenBlocks
+          gameSpec={this.props.gameSpec}
           fallenPieces={this.props.fallenPieces}
         />
       </g>

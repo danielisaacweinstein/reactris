@@ -4,7 +4,6 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { Game } from './Game.jsx'
 import { moveLeft, moveRight, descend } from '../actions.js'
-// import { fallingPieceColliding } from '../helpers.js'
 
 export class Tetris extends React.Component {
   componentWillMount() {
@@ -35,6 +34,7 @@ export class Tetris extends React.Component {
 }
 
 function mapStateToProps(state) {
+  console.log(state.toJS());
   return {
     fallingPieces: state.get('fallingPieces'),
     fallenPieces: state.get('fallenPieces'),
