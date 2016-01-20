@@ -1,5 +1,5 @@
 import * as Immutable from 'immutable'
-import { getColor } from './helpers.js'
+import { getColor, hasPieceHitBottom } from './helpers.js'
 
 // Return new state representing an object with currentPiece
 // mapping to object of its attributes.
@@ -24,15 +24,25 @@ function setInitialState(state, incomingData) {
 // Return new state with all yCoordinates of currentPiece
 // descended by the size of the block.
 function descend(state, incomingData) {
-  let nextState = state.update('fallingPieces',
-    (blocks) => {
-      return blocks.map(
-        (block) => {
-          return block.update('y', (yValue) => yValue + 20)
-        }
-      )
-    }
-  )
+
+  let isHittingBottom = hasPieceHitBottom(state);
+  let nextState = Immutable.Map();
+
+  if (!hasPieceHitBottom(state)) {
+    nextState = state.update('fallingPieces',
+      (blocks) => {
+        return blocks.map(
+          (block) => {
+            return block.update('y', (yValue) => yValue + 20)
+          }
+        )
+      }
+    )
+    console.log(nextState.toJS())
+  } else {
+    debugger;
+    // netState = lockFallingBlocks(state);
+  }
 
   return nextState;
 }
