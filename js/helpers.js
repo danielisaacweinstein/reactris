@@ -1,5 +1,21 @@
 import * as Immutable from 'immutable'
 
+export function lockFallingBlocks(state) {
+  let fallingPieces = state.get('fallingPieces');
+  let fallenPieces = state.get('fallenPieces');
+
+  while(fallingPieces.size > 0) {
+    let blockToLock = fallingPieces.last();
+    fallenPieces = fallenPieces.push(blockToLock);
+    fallingPieces = fallingPieces.pop();
+  }
+
+  state = state.update('fallingPieces', () => {return fallingPieces});
+  state = state.update('fallenPieces', () => {return fallenPieces});
+
+  return state;
+}
+
 export function hasPieceHitBottom(state) {
   let fallingPieces = state.get('fallingPieces');
   let fallenPieces = state.get('fallenPieces');
@@ -16,10 +32,8 @@ export function hasPieceHitBottom(state) {
     }))
   }
 
-  debugger;
-
-  let isHittingBottom = fallenPieces.reduce(function(fallenHit, fallenBlock) {
-    let didHitBlock = fallingPieces.reduce(function(fallingHit, fallingBlock) {
+  let isHittingBottom = fallenPieces.reduce(function(didFallenHit, fallenBlock) {
+    let didHitBlock = fallingPieces.reduce(function(didFallingHit, fallingBlock) {
       let fallingBottom = [fallingBlock.get('x'),
                            fallingBlock.get('y') + gameSpec.get('blockSize')];
       let fallenTop = [fallenBlock.get('x'),
@@ -28,17 +42,16 @@ export function hasPieceHitBottom(state) {
       let xCoordsMatch = fallingBottom[0] == fallenTop[0];
       let yCoordsMatch = fallingBottom[1] == fallenTop[1];
 
-      let hitFound = (xCoordsMatch && yCoordsMatch) ? true : false
+      let hitFound = xCoordsMatch && yCoordsMatch
 
-      return hitFound;
+      return didFallingHit || hitFound;
     }, false);
 
-    return false || didHitBlock
+    return didFallenHit || didHitBlock
   }, false);
 
   return isHittingBottom;
 }
-
 
 
 export function getColor() {
