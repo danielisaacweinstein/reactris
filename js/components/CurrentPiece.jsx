@@ -15,7 +15,7 @@ export class CurrentPiece extends React.Component {
           y={c.y}
           width={blockSize}
           height={blockSize}
-          fill={pieces.get('color')}
+          fill={c.color}
           key={index}
         />
       )
