@@ -38,6 +38,7 @@ function descend(state, incomingData) {
     )
   } else {
     nextState = lockFallingBlocks(state);
+    debugger;
   }
 
   return nextState;

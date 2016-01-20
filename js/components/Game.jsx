@@ -15,6 +15,7 @@ export class Game extends React.Component {
         <PlayingField
           gameSpec={gameSpec}
           fallingPieces={this.props.fallingPieces}
+          fallenPieces={this.props.fallenPieces}
         />
       </svg>
     );

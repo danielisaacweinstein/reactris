@@ -65,5 +65,3 @@ export function getColor() {
 
   return colors[Math.floor(Math.random() * colors.length)];
 }
-
-

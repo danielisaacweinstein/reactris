@@ -26,6 +26,7 @@ export class Tetris extends React.Component {
       <div>
         <Game
           fallingPieces={this.props.fallingPieces}
+          fallenPieces={this.props.fallenPieces}
           gameSpec={this.props.gameSpec}
         />
       </div>
