@@ -1,7 +1,8 @@
 import * as Immutable from 'immutable'
 import { getColor } from './helpers.js'
 import { hasPieceHitBottom,
-         hasPieceHitLeft } from './collisionLogic.js'
+         hasPieceHitLeft,
+         hasPieceHitRight } from './collisionLogic.js'
 import { lockFallingPiece,
          initiateNewFallingPiece } from './gameflowLogic.js'
 
@@ -63,15 +64,17 @@ function moveLeft(state, incomingData) {
 }
 
 function moveRight(state, incomingData) {
-  state = state.update('livePiece',
-    (blocks) => {
-      return blocks.map(
-        (block) => {
-          return block.update('x', (xValue) => xValue + 20)
-        }
-      )
-    }
-  )
+  if (!hasPieceHitRight(state)) {
+    state = state.update('livePiece',
+      (blocks) => {
+        return blocks.map(
+          (block) => {
+            return block.update('x', (xValue) => xValue + 20)
+          }
+        )
+      }
+    )    
+  }
 
   return state;  
 }
