@@ -1,123 +1,17 @@
 import * as Immutable from 'immutable'
-import { getColor } from './helpers.js'
 
-function getTPiece(gameSpec) {
-  let widthRatio = gameSpec.get('widthRatio');
-  let heightRatio = gameSpec.get('heightRatio');
-  let blockSize = gameSpec.get('blockSize');
-  let currentColor = getColor();
-
-  let tPiece = [{
-    x: (widthRatio / 2) * blockSize,
-    y: 0,
-    color: currentColor
-  }, {
-    x: ((widthRatio / 2) * (blockSize)) + (1 * blockSize),
-    y: 0,
-    color: currentColor
-  }, {
-    x: ((widthRatio / 2) * (blockSize)) + (2 * blockSize),
-    y: 0,
-    color: currentColor
-  }, {
-    x: ((widthRatio / 2) * (blockSize)) + (1 * blockSize),
-    y: blockSize,
-    color: currentColor
-  }];
-
-  return tPiece;
-}
-
-function getIPiece(gameSpec) {
-  let widthRatio = gameSpec.get('widthRatio');
-  let heightRatio = gameSpec.get('heightRatio');
-  let blockSize = gameSpec.get('blockSize');
-  let currentColor = getColor();
-
-  let iPiece = [{
-    x: (widthRatio / 2) * blockSize,
-    y: 0,
-    color: currentColor
-  }, {
-    x: ((widthRatio / 2) * (blockSize)) + (1 * blockSize),
-    y: 0,
-    color: currentColor
-  }, {
-    x: ((widthRatio / 2) * (blockSize)) + (2 * blockSize),
-    y: 0,
-    color: currentColor
-  }, {
-    x: ((widthRatio / 2) * (blockSize)) + (3 * blockSize),
-    y: 0,
-    color: currentColor
-  }]
-
-  return iPiece;
-}
-
-function getLPiece(gameSpec) {
-  let widthRatio = gameSpec.get('widthRatio');
-  let heightRatio = gameSpec.get('heightRatio');
-  let blockSize = gameSpec.get('blockSize');
-  let currentColor = getColor();
-
-  let lPiece = [{
-    x: (widthRatio / 2) * blockSize,
-    y: 0,
-    color: currentColor
-  }, {
-    x: ((widthRatio / 2) * (blockSize)) + (1 * blockSize),
-    y: 0,
-    color: currentColor
-  }, {
-    x: ((widthRatio / 2) * (blockSize)) + (2 * blockSize),
-    y: 0,
-    color: currentColor
-  }, {
-    x: ((widthRatio / 2) * (blockSize)) + (2 * blockSize),
-    y: blockSize,
-    color: currentColor
-  }]
-
-  return lPiece;
-}
-
-function getOPiece(gameSpec) {
-  let widthRatio = gameSpec.get('widthRatio');
-  let heightRatio = gameSpec.get('heightRatio');
-  let blockSize = gameSpec.get('blockSize');
-  let currentColor = getColor();
-
-  let oPiece = [{
-    x: (widthRatio / 2) * blockSize,
-    y: 0,
-    color: currentColor
-  }, {
-    x: ((widthRatio / 2) * (blockSize)) + (1 * blockSize),
-    y: 0,
-    color: currentColor
-  }, {
-    x: (widthRatio / 2) * (blockSize),
-    y: blockSize,
-    color: currentColor
-  }, {
-    x: ((widthRatio / 2) * (blockSize)) + (1 * blockSize),
-    y: blockSize,
-    color: currentColor
-  }]
-
-  return oPiece;
-}
-
+import { getIPiece,
+        getLPiece,
+        getTPiece,
+        getOPiece,
+        getSPiece,
+        getZPiece,
+        getJPiece } from './pieceCreators.js'
 
 function getPieceCreator(gameSpec) {
   return function() {
-    let creators = [
-      getIPiece,
-      getLPiece,
-      getTPiece,
-      getOPiece
-    ]
+    let creators = [getIPiece, getLPiece, getTPiece, getOPiece,
+                    getSPiece, getZPiece, getJPiece]
 
     let randomIndex = Math.floor(Math.random() * creators.length);
 
@@ -128,10 +22,10 @@ function getPieceCreator(gameSpec) {
 export function initiateNewLivePiece(state) {
   let getNewPiece = getPieceCreator(state.get('gameSpec'));
 
-  let newPiece = getNewPiece();
+  // let newPiece = getNewPiece();
 
   state = state.update('livePiece', () => {
-    return Immutable.fromJS(newPiece);
+    return Immutable.fromJS(getNewPiece());
   });
 
   return state;
