@@ -1,13 +1,14 @@
 import * as Immutable from 'immutable'
 import { getColor } from './helpers.js'
-import { hasPieceHitBottom } from './collisionLogic.js'
+import { hasPieceHitBottom,
+         hasPieceHitLeft } from './collisionLogic.js'
 import { lockFallingPiece,
          initiateNewFallingPiece } from './gameflowLogic.js'
 
 // Return new state representing an object with currentPiece
 // mapping to object of its attributes.
 function setInitialState(state, incomingData) {
-  let nextState = {
+  let initialState = {
     gameSpec: {
       widthRatio: incomingData.dimensions[0],
       heightRatio: incomingData.dimensions[1],
@@ -21,16 +22,14 @@ function setInitialState(state, incomingData) {
     deadPieces: []
   }
 
-  return state.merge(nextState)
+  return state.merge(initialState)
 }
 
 // Return new state with all yCoordinates of currentPiece
 // descended by the size of the block.
 function descend(state, incomingData) {
-  let nextState = Immutable.Map();
-
   if (!hasPieceHitBottom(state)) {
-    nextState = state.update('livePiece',
+    state = state.update('livePiece',
       (blocks) => {
         return blocks.map(
           (block) => {
@@ -40,29 +39,31 @@ function descend(state, incomingData) {
       }
     )
   } else {
-    nextState = lockFallingPiece(state);
-    nextState = initiateNewFallingPiece(nextState);
+    state = lockFallingPiece(state);
+    state = initiateNewFallingPiece(state);
   }
 
-  return nextState;
+  return state;
 }
 
 function moveLeft(state, incomingData) {
-  let nextState = state.update('livePiece',
-    (blocks) => {
-      return blocks.map(
-        (block) => {
-          return block.update('x', (xValue) => xValue - 20)
-        }
-      )
-    }
-  )
+  if (!hasPieceHitLeft(state)) {
+    state = state.update('livePiece',
+      (blocks) => {
+        return blocks.map(
+          (block) => {
+            return block.update('x', (xValue) => xValue - 20)
+          }
+        )
+      }
+    )    
+  }
 
-  return nextState; 
+  return state; 
 }
 
 function moveRight(state, incomingData) {
-  let nextState = state.update('livePiece',
+  state = state.update('livePiece',
     (blocks) => {
       return blocks.map(
         (block) => {
@@ -72,7 +73,7 @@ function moveRight(state, incomingData) {
     }
   )
 
-  return nextState;  
+  return state;  
 }
 
 function reducer(state = Immutable.Map(), action) {
