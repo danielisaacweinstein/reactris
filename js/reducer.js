@@ -3,25 +3,23 @@ import { getColor } from './helpers.js'
 import { hasPieceHitBottom,
          hasPieceHitLeft,
          hasPieceHitRight } from './collisionLogic.js'
-import { lockFallingPiece,
-         initiateNewFallingPiece } from './gameflowLogic.js'
+import { lockLivePiece,
+         initiateNewLivePiece } from './gameflowLogic.js'
 
 // Return new state representing an object with currentPiece
 // mapping to object of its attributes.
 function setInitialState(state, incomingData) {
-  let initialState = {
+  let initialState = Immutable.fromJS({
     gameSpec: {
       widthRatio: incomingData.dimensions[0],
       heightRatio: incomingData.dimensions[1],
       blockSize: incomingData.blockSize
     },
-    livePiece: [{
-      x: (incomingData.dimensions[0] / 2) * incomingData.blockSize,
-      y: 0,
-      color: getColor()
-    }],
+    livePiece: [],
     deadPieces: []
-  }
+  })
+
+  initialState = initiateNewLivePiece(initialState);
 
   return state.merge(initialState)
 }
@@ -32,16 +30,18 @@ function descend(state, incomingData) {
   if (!hasPieceHitBottom(state)) {
     state = state.update('livePiece',
       (blocks) => {
+        console.log("line 33")
         return blocks.map(
           (block) => {
+            console.log("line 36")
             return block.update('y', (yValue) => yValue + 20)
           }
         )
       }
     )
   } else {
-    state = lockFallingPiece(state);
-    state = initiateNewFallingPiece(state);
+    state = lockLivePiece(state);
+    state = initiateNewLivePiece(state);
   }
 
   return state;

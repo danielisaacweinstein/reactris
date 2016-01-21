@@ -1,23 +1,86 @@
 import * as Immutable from 'immutable'
 import { getColor } from './helpers.js'
 
-export function initiateNewFallingPiece(state) {
-  let widthRatio = state.getIn(['gameSpec', 'widthRatio']);
-  let heightRatio = state.getIn(['gameSpec', 'heightRatio']);
-  let blockSize = state.getIn(['gameSpec', 'blockSize']);
+function getIPiece(gameSpec) {
+  let widthRatio = gameSpec.get('widthRatio');
+  let heightRatio = gameSpec.get('heightRatio');
+  let blockSize = gameSpec.get('blockSize');
+  let currentColor = getColor();
+
+  let iPiece = [{
+    x: (widthRatio / 2) * blockSize,
+    y: 0,
+    color: currentColor
+  }, {
+    x: ((widthRatio / 2) * (blockSize)) + (1 * blockSize),
+    y: 0,
+    color: currentColor
+  }, {
+    x: ((widthRatio / 2) * (blockSize)) + (2 * blockSize),
+    y: 0,
+    color: currentColor
+  }, {
+    x: ((widthRatio / 2) * (blockSize)) + (1 * blockSize),
+    y: blockSize,
+    color: currentColor
+  }];
+
+  return iPiece;
+}
+
+function getLPiece(gameSpec) {
+  let widthRatio = gameSpec.get('widthRatio');
+  let heightRatio = gameSpec.get('heightRatio');
+  let blockSize = gameSpec.get('blockSize');
+  let currentColor = getColor();
+
+  let lPiece = [{
+    x: (widthRatio / 2) * blockSize,
+    y: 0,
+    color: currentColor
+  }, {
+    x: ((widthRatio / 2) * (blockSize)) + (1 * blockSize),
+    y: 0,
+    color: currentColor
+  }, {
+    x: ((widthRatio / 2) * (blockSize)) + (2 * blockSize),
+    y: 0,
+    color: currentColor
+  }, {
+    x: ((widthRatio / 2) * (blockSize)) + (3 * blockSize),
+    y: 0,
+    color: currentColor
+  }]
+
+  return lPiece;
+}
+
+function getPieceCreator(gameSpec) {
+  return function() {
+    let creators = [
+      getIPiece,
+      getLPiece
+    ]
+
+    let randomIndex = Math.floor(Math.random() * creators.length);
+
+    return creators[randomIndex](gameSpec);
+  }
+}
+
+export function initiateNewLivePiece(state) {
+  let getNewPiece = getPieceCreator(state.get('gameSpec'));
+
+  let newPiece = getNewPiece();
 
   state = state.update('livePiece', () => {
-    return Immutable.fromJS([{
-      x: (widthRatio / 2) * blockSize,
-      y: 0,
-      color: getColor()
-    }])
+    return Immutable.fromJS(newPiece);
   });
 
   return state;
 }
 
-export function lockFallingPiece(state) {
+export function lockLivePiece(state) {
   let livePiece = state.get('livePiece');
   let deadPieces = state.get('deadPieces');
 
