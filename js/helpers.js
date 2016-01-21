@@ -48,22 +48,22 @@ export function hasPieceHitBottom(state) {
     }))
   }
 
-  let isHittingBottom = deadPieces.reduce(function(didFallenHit, fallenBlock) {
-    let didHitBlock = livePiece.reduce(function(didFallingHit, fallingBlock) {
-      let fallingBottom = [fallingBlock.get('x'),
-                           fallingBlock.get('y') + gameSpec.get('blockSize')];
-      let fallenTop = [fallenBlock.get('x'),
-                       fallenBlock.get('y')];
+  let isHittingBottom = deadPieces.reduce(function(deadAlreadyHit, deadSquare) {
+    let deadDetectedNewHit = livePiece.reduce(function(liveAlreadyHit, liveSquare) {
+      let liveCorner = [liveSquare.get('x'),
+                        liveSquare.get('y') + blockSize];
+      let deadCorner = [deadSquare.get('x'),
+                        deadSquare.get('y')];
 
-      let xCoordsMatch = fallingBottom[0] == fallenTop[0];
-      let yCoordsMatch = fallingBottom[1] == fallenTop[1];
+      let xCoordsMatch = liveCorner[0] == deadCorner[0];
+      let yCoordsMatch = liveCorner[1] == deadCorner[1];
 
-      let hitFound = xCoordsMatch && yCoordsMatch
+      let liveDetectedNewHit = xCoordsMatch && yCoordsMatch
 
-      return didFallingHit || hitFound;
+      return liveAlreadyHit || liveDetectedNewHit;
     }, false);
 
-    return didFallenHit || didHitBlock
+    return deadAlreadyHit || deadDetectedNewHit;
   }, false);
 
   return isHittingBottom;
