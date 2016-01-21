@@ -1,8 +1,8 @@
 import * as Immutable from 'immutable'
-import { getColor,
-         hasPieceHitBottom,
-         lockFallingBlocks,
-         initiateNewFallingPiece } from './helpers.js'
+import { getColor } from './helpers.js'
+import { hasPieceHitBottom } from './collisionLogic.js'
+import { lockFallingPiece,
+         initiateNewFallingPiece } from './gameflowLogic.js'
 
 // Return new state representing an object with currentPiece
 // mapping to object of its attributes.
@@ -40,7 +40,7 @@ function descend(state, incomingData) {
       }
     )
   } else {
-    nextState = lockFallingBlocks(state);
+    nextState = lockFallingPiece(state);
     nextState = initiateNewFallingPiece(nextState);
   }
 
