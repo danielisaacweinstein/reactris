@@ -77,7 +77,6 @@ export function hasPieceHitLeft(state) {
 }
 
 export function hasPieceHitBottom(state) {
-  console.log("line 80")
   let livePiece = state.get('livePiece');
   let boundaryPieces = state.get('deadPieces');
   let gameSpec = state.get('gameSpec')
@@ -96,7 +95,6 @@ export function hasPieceHitBottom(state) {
 
   let isHittingBottom = boundaryPieces.reduce(function(deadAlreadyHit, deadSquare) {
     let deadDetectedNewHit = livePiece.reduce(function(liveAlreadyHit, liveSquare) {
-      console.log("line 99")
       let liveCorner = [liveSquare.get('x'),
                         liveSquare.get('y') + blockSize];
       let deadCorner = [deadSquare.get('x'),

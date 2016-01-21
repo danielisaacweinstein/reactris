@@ -22,8 +22,6 @@ function getPieceCreator(gameSpec) {
 export function initiateNewLivePiece(state) {
   let getNewPiece = getPieceCreator(state.get('gameSpec'));
 
-  // let newPiece = getNewPiece();
-
   state = state.update('livePiece', () => {
     return Immutable.fromJS(getNewPiece());
   });

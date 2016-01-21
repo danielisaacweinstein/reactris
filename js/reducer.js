@@ -30,10 +30,8 @@ function descend(state, incomingData) {
   if (!hasPieceHitBottom(state)) {
     state = state.update('livePiece',
       (blocks) => {
-        console.log("line 33")
         return blocks.map(
           (block) => {
-            console.log("line 36")
             return block.update('y', (yValue) => yValue + 20)
           }
         )
@@ -79,6 +77,66 @@ function moveRight(state, incomingData) {
   return state;  
 }
 
+// I'm sorry
+function getRotatedSquare(pivotSquare, rotatingSquare) {
+  let pivotX = pivotSquare.get('x');
+  let pivotY = pivotSquare.get('y');
+  let rotatingX = rotatingSquare.get('x');
+  let rotatingY = rotatingSquare.get('y');
+
+  if (rotatingX < pivotX && rotatingY == pivotY) {
+    let delta = pivotX - rotatingX;
+    rotatingSquare.update('x', (index) => {return index + delta});
+    rotatingSquare.update('y', (index) => {return index + delta});
+  } else if (rotatingX < pivotX && rotatingY < pivotY) {
+    let yDelta = pivotY - rotatingY;
+    rotatingSquare.update('y', (index) => {return index + (2 * yDelta)})
+  } else if (rotatingX == pivotX && rotatingY < pivotY) {
+    let delta = pivotY - rotatingY;
+    rotatingSquare.update('x', (index) => {return index - delta});
+    rotatingSquare.update('y', (index) => {return index + delta});
+  } else if (rotatingX > pivotX && rotatingY < pivotY) {
+    let yDelta = pivotY - rotatingY;
+    rotatingSquare.update('x', (index) => {return index + (2 * yDelta)});
+  } else if (rotatingX > pivotX && rotatingY == pivotY) {
+    let xDelta = rotatingX - pivotX;
+    rotatingSquare.update('x', (index) => {return index - xDelta});
+    rotatingSquare.update('y', (index) => {return index - xDelta});    
+  } else if (rotatingX > pivotX && rotatingY > pivotY) {
+    let delta = rotatingX - pivotX;
+    rotatingSquare.update('y', (index) => {return index - (2 * delta)});
+  } else if (rotatingX == pivotX && rotatingY > pivotY) {
+    let yDelta = pivotY - rotatingY;
+    rotatingSquare.update('x', (index) => {return index + yDelta});
+    rotatingSquare.update('y', (index) => {return index - yDelta});
+  } else if (rotatingX < pivotX && rotatingY < pivotY) {
+    let delta = pivotY - rotatingY;
+    rotatingSquare.update('y', (index) => {return index + delta});    
+  }
+
+  debugger;
+
+  return rotatingSquare;
+}
+
+function rotate(state, incomingData) {
+  let piece = state.get('livePiece');
+
+  let pivotSquare = piece.reduce((alreadyFoundPivot, square) => {
+    let squareIsPivot = (square.get('isPivot') == true);
+    return squareIsPivot ? square : alreadyFoundPivot || false
+  }, false);
+
+  piece = piece.map((square) => {
+    let isPivot = square.get('isPivot') == true;
+    return isPivot ? square : getRotatedSquare(pivotSquare, square)
+  });
+
+  state = state.update('livePiece', () => {return piece});
+
+  return state;
+}
+
 function reducer(state = Immutable.Map(), action) {
   console.log(action.type);
   switch (action.type) {
@@ -90,6 +148,8 @@ function reducer(state = Immutable.Map(), action) {
       return moveLeft(state, action.data);
     case 'MOVE_RIGHT':
       return moveRight(state, action.data);
+    case 'ROTATE':
+      return rotate(state, action.data);
   }
   return state;
 }

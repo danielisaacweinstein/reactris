@@ -19,8 +19,15 @@ export function moveLeft() {
     type: "MOVE_LEFT"
   }
 }
+
 export function moveRight() {
   return {
     type: "MOVE_RIGHT"
+  }
+}
+
+export function rotate() {
+  return {
+    type: "ROTATE"
   }
 }
