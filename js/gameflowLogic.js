@@ -1,6 +1,33 @@
 import * as Immutable from 'immutable'
 import { getColor } from './helpers.js'
 
+function getTPiece(gameSpec) {
+  let widthRatio = gameSpec.get('widthRatio');
+  let heightRatio = gameSpec.get('heightRatio');
+  let blockSize = gameSpec.get('blockSize');
+  let currentColor = getColor();
+
+  let tPiece = [{
+    x: (widthRatio / 2) * blockSize,
+    y: 0,
+    color: currentColor
+  }, {
+    x: ((widthRatio / 2) * (blockSize)) + (1 * blockSize),
+    y: 0,
+    color: currentColor
+  }, {
+    x: ((widthRatio / 2) * (blockSize)) + (2 * blockSize),
+    y: 0,
+    color: currentColor
+  }, {
+    x: ((widthRatio / 2) * (blockSize)) + (1 * blockSize),
+    y: blockSize,
+    color: currentColor
+  }];
+
+  return tPiece;
+}
+
 function getIPiece(gameSpec) {
   let widthRatio = gameSpec.get('widthRatio');
   let heightRatio = gameSpec.get('heightRatio');
@@ -20,10 +47,10 @@ function getIPiece(gameSpec) {
     y: 0,
     color: currentColor
   }, {
-    x: ((widthRatio / 2) * (blockSize)) + (1 * blockSize),
-    y: blockSize,
+    x: ((widthRatio / 2) * (blockSize)) + (3 * blockSize),
+    y: 0,
     color: currentColor
-  }];
+  }]
 
   return iPiece;
 }
@@ -47,19 +74,49 @@ function getLPiece(gameSpec) {
     y: 0,
     color: currentColor
   }, {
-    x: ((widthRatio / 2) * (blockSize)) + (3 * blockSize),
-    y: 0,
+    x: ((widthRatio / 2) * (blockSize)) + (2 * blockSize),
+    y: blockSize,
     color: currentColor
   }]
 
   return lPiece;
 }
 
+function getOPiece(gameSpec) {
+  let widthRatio = gameSpec.get('widthRatio');
+  let heightRatio = gameSpec.get('heightRatio');
+  let blockSize = gameSpec.get('blockSize');
+  let currentColor = getColor();
+
+  let oPiece = [{
+    x: (widthRatio / 2) * blockSize,
+    y: 0,
+    color: currentColor
+  }, {
+    x: ((widthRatio / 2) * (blockSize)) + (1 * blockSize),
+    y: 0,
+    color: currentColor
+  }, {
+    x: (widthRatio / 2) * (blockSize),
+    y: blockSize,
+    color: currentColor
+  }, {
+    x: ((widthRatio / 2) * (blockSize)) + (1 * blockSize),
+    y: blockSize,
+    color: currentColor
+  }]
+
+  return oPiece;
+}
+
+
 function getPieceCreator(gameSpec) {
   return function() {
     let creators = [
       getIPiece,
-      getLPiece
+      getLPiece,
+      getTPiece,
+      getOPiece
     ]
 
     let randomIndex = Math.floor(Math.random() * creators.length);
