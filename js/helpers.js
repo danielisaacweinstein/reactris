@@ -5,7 +5,7 @@ export function initiateNewFallingPiece(state) {
   let heightRatio = state.getIn(['gameSpec', 'heightRatio']);
   let blockSize = state.getIn(['gameSpec', 'blockSize']);
 
-  state = state.update('fallingPieces', () => {
+  state = state.update('livePiece', () => {
     return Immutable.fromJS([{
       x: (widthRatio / 2) * blockSize,
       y: 0,
@@ -17,24 +17,24 @@ export function initiateNewFallingPiece(state) {
 }
 
 export function lockFallingBlocks(state) {
-  let fallingPieces = state.get('fallingPieces');
-  let fallenPieces = state.get('fallenPieces');
+  let livePiece = state.get('livePiece');
+  let deadPieces = state.get('deadPieces');
 
-  while(fallingPieces.size > 0) {
-    let blockToLock = fallingPieces.last();
-    fallenPieces = fallenPieces.push(blockToLock);
-    fallingPieces = fallingPieces.pop();
+  while(livePiece.size > 0) {
+    let blockToLock = livePiece.last();
+    deadPieces = deadPieces.push(blockToLock);
+    livePiece = livePiece.pop();
   }
 
-  state = state.update('fallingPieces', () => {return fallingPieces});
-  state = state.update('fallenPieces', () => {return fallenPieces});
+  state = state.update('livePiece', () => {return livePiece});
+  state = state.update('deadPieces', () => {return deadPieces});
 
   return state;
 }
 
 export function hasPieceHitBottom(state) {
-  let fallingPieces = state.get('fallingPieces');
-  let fallenPieces = state.get('fallenPieces');
+  let livePiece = state.get('livePiece');
+  let deadPieces = state.get('deadPieces');
   let gameSpec = state.get('gameSpec')
 
   let widthRatio = gameSpec.get('widthRatio');
@@ -42,14 +42,14 @@ export function hasPieceHitBottom(state) {
   let blockSize = gameSpec.get('blockSize');
 
   for (let i = 0; i < widthRatio; i++) {
-    fallenPieces = fallenPieces.push(Immutable.fromJS({
+    deadPieces = deadPieces.push(Immutable.fromJS({
       x: i * blockSize,
       y: heightRatio * blockSize
     }))
   }
 
-  let isHittingBottom = fallenPieces.reduce(function(didFallenHit, fallenBlock) {
-    let didHitBlock = fallingPieces.reduce(function(didFallingHit, fallingBlock) {
+  let isHittingBottom = deadPieces.reduce(function(didFallenHit, fallenBlock) {
+    let didHitBlock = livePiece.reduce(function(didFallingHit, fallingBlock) {
       let fallingBottom = [fallingBlock.get('x'),
                            fallingBlock.get('y') + gameSpec.get('blockSize')];
       let fallenTop = [fallenBlock.get('x'),

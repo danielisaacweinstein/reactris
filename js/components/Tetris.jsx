@@ -24,8 +24,8 @@ export class Tetris extends React.Component {
     return (
       <div>
         <Game
-          fallingPieces={this.props.fallingPieces}
-          fallenPieces={this.props.fallenPieces}
+          livePiece={this.props.livePiece}
+          deadPieces={this.props.deadPieces}
           gameSpec={this.props.gameSpec}
         />
       </div>
@@ -36,8 +36,8 @@ export class Tetris extends React.Component {
 function mapStateToProps(state) {
   console.log(state.toJS());
   return {
-    fallingPieces: state.get('fallingPieces'),
-    fallenPieces: state.get('fallenPieces'),
+    livePiece: state.get('livePiece'),
+    deadPieces: state.get('deadPieces'),
     gameSpec: state.get('gameSpec')
   }
 }

@@ -13,12 +13,12 @@ function setInitialState(state, incomingData) {
       heightRatio: incomingData.dimensions[1],
       blockSize: incomingData.blockSize
     },
-    fallingPieces: [{
+    livePiece: [{
       x: (incomingData.dimensions[0] / 2) * incomingData.blockSize,
       y: 0,
       color: getColor()
     }],
-    fallenPieces: []
+    deadPieces: []
   }
 
   return state.merge(nextState)
@@ -30,7 +30,7 @@ function descend(state, incomingData) {
   let nextState = Immutable.Map();
 
   if (!hasPieceHitBottom(state)) {
-    nextState = state.update('fallingPieces',
+    nextState = state.update('livePiece',
       (blocks) => {
         return blocks.map(
           (block) => {
@@ -48,7 +48,7 @@ function descend(state, incomingData) {
 }
 
 function moveLeft(state, incomingData) {
-  let nextState = state.update('fallingPieces',
+  let nextState = state.update('livePiece',
     (blocks) => {
       return blocks.map(
         (block) => {
@@ -62,7 +62,7 @@ function moveLeft(state, incomingData) {
 }
 
 function moveRight(state, incomingData) {
-  let nextState = state.update('fallingPieces',
+  let nextState = state.update('livePiece',
     (blocks) => {
       return blocks.map(
         (block) => {

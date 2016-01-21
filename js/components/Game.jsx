@@ -14,8 +14,8 @@ export class Game extends React.Component {
         height={gameSpec.get('heightRatio') * gameSpec.get('blockSize')}>
         <PlayingField
           gameSpec={gameSpec}
-          fallingPieces={this.props.fallingPieces}
-          fallenPieces={this.props.fallenPieces}
+          livePiece={this.props.livePiece}
+          deadPieces={this.props.deadPieces}
         />
       </svg>
     );

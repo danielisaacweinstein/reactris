@@ -2,7 +2,7 @@
 
 import React from 'react'
 
-export class FallenBlocks extends React.Component {
+export class DeadPieces extends React.Component {
 
   getBlocks(pieces) {
     let { blockSize } = this.props.gameSpec.toJS();
@@ -27,7 +27,7 @@ export class FallenBlocks extends React.Component {
   render() {
     return (
       <g>
-        {this.getBlocks(this.props.fallenPieces)}
+        {this.getBlocks(this.props.deadPieces)}
       </g>
     )
   }
