@@ -20,6 +20,7 @@ export function attemptCollapse(state) {
     });
 
     if (deadPiecesInRow.size == widthRatio) {
+      // Delete blocks
       while (deadPiecesInRow.size > 0) {
         let currentDeadPiece = deadPiecesInRow.last();
         deadPiecesInRow = deadPiecesInRow.pop();
@@ -31,6 +32,19 @@ export function attemptCollapse(state) {
 
         deadPieces = deadPieces.delete(indexToDelete);
       }
+      // Downshift blocks above yIndex
+      deadPieces = deadPieces.map((currentPiece) => {
+        let currentY = currentPiece.get('y');
+
+        let isAbove = currentY < yIndex;
+
+        if (isAbove) {
+          return currentPiece.update('y', () => {return currentY + blockSize});
+        } else {
+          return currentPiece.update('y', () => {return currentY});
+        }
+      })
+
     }
     state = state.update('deadPieces', () => {return deadPieces});
   }
