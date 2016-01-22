@@ -77,44 +77,22 @@ function moveRight(state, incomingData) {
   return state;  
 }
 
-// I'm sorry
 function getRotatedSquare(pivotSquare, rotatingSquare) {
-  let pivotX = pivotSquare.get('x');
-  let pivotY = pivotSquare.get('y');
-  let rotatingX = rotatingSquare.get('x');
-  let rotatingY = rotatingSquare.get('y');
+  let xDelta = rotatingSquare.get('x') - pivotSquare.get('x');
+  let yDelta = rotatingSquare.get('y') - pivotSquare.get('y');
 
-  if (rotatingX < pivotX && rotatingY == pivotY) {
-    let delta = pivotX - rotatingX;
-    rotatingSquare.update('x', (index) => {return index + delta});
-    rotatingSquare.update('y', (index) => {return index + delta});
-  } else if (rotatingX < pivotX && rotatingY < pivotY) {
-    let yDelta = pivotY - rotatingY;
-    rotatingSquare.update('y', (index) => {return index + (2 * yDelta)})
-  } else if (rotatingX == pivotX && rotatingY < pivotY) {
-    let delta = pivotY - rotatingY;
-    rotatingSquare.update('x', (index) => {return index - delta});
-    rotatingSquare.update('y', (index) => {return index + delta});
-  } else if (rotatingX > pivotX && rotatingY < pivotY) {
-    let yDelta = pivotY - rotatingY;
-    rotatingSquare.update('x', (index) => {return index + (2 * yDelta)});
-  } else if (rotatingX > pivotX && rotatingY == pivotY) {
-    let xDelta = rotatingX - pivotX;
-    rotatingSquare.update('x', (index) => {return index - xDelta});
-    rotatingSquare.update('y', (index) => {return index - xDelta});    
-  } else if (rotatingX > pivotX && rotatingY > pivotY) {
-    let delta = rotatingX - pivotX;
-    rotatingSquare.update('y', (index) => {return index - (2 * delta)});
-  } else if (rotatingX == pivotX && rotatingY > pivotY) {
-    let yDelta = pivotY - rotatingY;
-    rotatingSquare.update('x', (index) => {return index + yDelta});
-    rotatingSquare.update('y', (index) => {return index - yDelta});
-  } else if (rotatingX < pivotX && rotatingY < pivotY) {
-    let delta = pivotY - rotatingY;
-    rotatingSquare.update('y', (index) => {return index + delta});    
-  }
+  let matrix = [[0, 1], [-1, 0]]; // Rotation matrix
 
-  debugger;
+  let newVector = [(matrix[0][0] * xDelta) + (matrix[0][1] * yDelta),
+                   (matrix[1][0] * xDelta) + (matrix[1][1] * yDelta)]
+
+  rotatingSquare = rotatingSquare.update('x', () => {
+    return pivotSquare.get('x') + newVector[0];
+  });
+
+  rotatingSquare = rotatingSquare.update('y', () => {
+    return pivotSquare.get('y') + newVector[1];
+  });
 
   return rotatingSquare;
 }
