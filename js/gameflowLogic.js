@@ -8,6 +8,36 @@ import { getIPiece,
         getZPiece,
         getJPiece } from './pieceCreators.js'
 
+export function attemptCollapse(state) {
+  let { widthRatio, heightRatio, blockSize } = state.get('gameSpec').toJS();
+  let deadPieces = state.get('deadPieces');
+
+  for (let i = 0; i < heightRatio; i ++) {
+    let yIndex = i * blockSize;
+
+    let deadPiecesInRow = deadPieces.filter((square) => {
+      return square.get('y') == yIndex;
+    });
+
+    if (deadPiecesInRow.size == widthRatio) {
+      while (deadPiecesInRow.size > 0) {
+        let currentDeadPiece = deadPiecesInRow.last();
+        deadPiecesInRow = deadPiecesInRow.pop();
+
+        let indexToDelete = deadPieces.findIndex((deadPiece) => {
+          return (deadPiece.get('x') == currentDeadPiece.get('x') &&
+                  deadPiece.get('y') == currentDeadPiece.get('y'))
+        })
+
+        deadPieces = deadPieces.delete(indexToDelete);
+      }
+    }
+    state = state.update('deadPieces', () => {return deadPieces});
+  }
+
+  return state;
+}
+
 function getPieceCreator(gameSpec) {
   return function() {
     let creators = [getIPiece, getLPiece, getTPiece, getOPiece,

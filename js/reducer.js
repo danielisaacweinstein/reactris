@@ -4,7 +4,8 @@ import { hasPieceHitBottom,
          hasPieceHitLeft,
          hasPieceHitRight } from './collisionLogic.js'
 import { lockLivePiece,
-         initiateNewLivePiece } from './gameflowLogic.js'
+         initiateNewLivePiece,
+         attemptCollapse } from './gameflowLogic.js'
 
 // Return new state representing an object with currentPiece
 // mapping to object of its attributes.
@@ -41,6 +42,8 @@ function descend(state, incomingData) {
     state = lockLivePiece(state);
     state = initiateNewLivePiece(state);
   }
+
+  state = attemptCollapse(state);
 
   return state;
 }
