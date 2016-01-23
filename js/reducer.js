@@ -49,32 +49,24 @@ function descend(state, incomingData) {
   return attemptCollapse(state);
 }
 
-function moveLeft(state, incomingData) {
-  let isHittingLeft = getCollisionDetector(state, [0, 0], [1, 0]);
+function moveHorizontal(state, incomingData) {
+  let blockSize = state.getIn(['gameSpec', 'blockSize']);
+  let xShift = incomingData.shift;
+  let isLeft = xShift === -1;
 
-  if (!isHittingLeft()) {
+  let [liveIndex, deadIndex] = isLeft ? [[0, 0], [1, 0]] : [[1, 0], [0, 0]];
+
+  let isHittingSide = getCollisionDetector(state, liveIndex, deadIndex);
+
+  if (!isHittingSide()) {
     state = state.update('livePiece', (blocks) => {
       return blocks.map((block) => {
-        return block.update('x', (xValue) => xValue - 20);
-      });
-    });     
-  }
-
-  return state; 
-}
-
-function moveRight(state, incomingData) {
-  let isHittingRight = getCollisionDetector(state, [1, 0], [0, 0]);
-
-  if (!isHittingRight()) {
-    state = state.update('livePiece', (blocks) => {
-      return blocks.map((block) => {
-          return block.update('x', (xValue) => xValue + 20)
+        return block.update('x', (xValue) => xValue + xShift * blockSize);
       });
     });
   }
 
-  return state;  
+  return state;
 }
 
 // Apply rotation matrix to vector from index of pivot square
@@ -126,6 +118,8 @@ function reducer(state = Immutable.Map(), action) {
       return moveLeft(state, action.data);
     case 'MOVE_RIGHT':
       return moveRight(state, action.data);
+    case 'MOVE_HORIZONTAL':
+      return moveHorizontal(state, action.data);
     case 'ROTATE':
       return rotate(state, action.data);
   }

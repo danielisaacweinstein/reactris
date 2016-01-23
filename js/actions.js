@@ -14,17 +14,26 @@ export function descend() {
   }
 }
 
-export function moveLeft() {
+export function moveHorizontal(xShift) {
   return {
-    type: "MOVE_LEFT"
+    type: 'MOVE_HORIZONTAL',
+    data: {
+      shift: xShift
+    }
   }
 }
 
-export function moveRight() {
-  return {
-    type: "MOVE_RIGHT"
-  }
-}
+// export function moveLeft() {
+//   return {
+//     type: "MOVE_LEFT"
+//   }
+// }
+
+// export function moveRight() {
+//   return {
+//     type: "MOVE_RIGHT"
+//   }
+// }
 
 export function rotate() {
   return {
