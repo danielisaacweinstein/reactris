@@ -73,7 +73,13 @@ export function getPieceCreator(gameSpec) {
   }
 }
 
-export function queuePiece(state) {
+export function makeQueuedPieceLive(state) {
+  return state.update('livePiece', () => {
+    return state.get('queuedPiece');
+  });
+}
+
+export function queueNewPiece(state) {
   let getNewPiece = getPieceCreator(state.get('gameSpec'));
 
   state = state.update('queuedPiece', () => {
