@@ -29,36 +29,26 @@ function setInitialState(state, incomingData) {
 // descended by the size of the block.
 function descend(state, incomingData) {
   if (!hasPieceHitBottom(state)) {
-    state = state.update('livePiece',
-      (blocks) => {
-        return blocks.map(
-          (block) => {
-            return block.update('y', (yValue) => yValue + 20)
-          }
-        )
-      }
-    )
+    state = state.update('livePiece', (blocks) => {
+      return blocks.map((block) => {
+        return block.update('y', (yValue) => yValue + 20);
+      });
+    });
   } else {
     state = lockLivePiece(state);
     state = initiateNewLivePiece(state);
   }
 
-  state = attemptCollapse(state);
-
-  return state;
+  return attemptCollapse(state);
 }
 
 function moveLeft(state, incomingData) {
   if (!hasPieceHitLeft(state)) {
-    state = state.update('livePiece',
-      (blocks) => {
-        return blocks.map(
-          (block) => {
-            return block.update('x', (xValue) => xValue - 20)
-          }
-        )
-      }
-    )    
+    state = state.update('livePiece', (blocks) => {
+      return blocks.map((block) => {
+        return block.update('x', (xValue) => xValue - 20);
+      });
+    }); 
   }
 
   return state; 
@@ -66,20 +56,18 @@ function moveLeft(state, incomingData) {
 
 function moveRight(state, incomingData) {
   if (!hasPieceHitRight(state)) {
-    state = state.update('livePiece',
-      (blocks) => {
-        return blocks.map(
-          (block) => {
-            return block.update('x', (xValue) => xValue + 20)
-          }
-        )
-      }
-    )    
+    state = state.update('livePiece', (blocks) => {
+      return blocks.map((block) => {
+          return block.update('x', (xValue) => xValue + 20)
+      });
+    });
   }
 
   return state;  
 }
 
+// Apply rotation matrix to vector from index of pivot square
+// to the index of rotating square.
 function getRotatedSquare(pivotSquare, rotatingSquare) {
   let xDelta = rotatingSquare.get('x') - pivotSquare.get('x');
   let yDelta = rotatingSquare.get('y') - pivotSquare.get('y');
@@ -110,12 +98,10 @@ function rotate(state, incomingData) {
 
   piece = piece.map((square) => {
     let isPivot = square.get('isPivot') == true;
-    return isPivot ? square : getRotatedSquare(pivotSquare, square)
+    return isPivot ? square : getRotatedSquare(pivotSquare, square);
   });
 
-  state = state.update('livePiece', () => {return piece});
-
-  return state;
+  return state.update('livePiece', () => {return piece});
 }
 
 function reducer(state = Immutable.Map(), action) {
