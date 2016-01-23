@@ -1,6 +1,32 @@
 import * as Immutable from 'immutable'
 
-export function getCollisionDetector(state, liveSquareIndex, deadSquareIndex) {
+function getBoundaries(boundaryPieces, gameSpec) {
+  let widthRatio = gameSpec.get('widthRatio');
+  let heightRatio = gameSpec.get('heightRatio');
+  let blockSize = gameSpec.get('blockSize');
+
+  for (let i = 0; i < widthRatio; i++) {
+    boundaryPieces = boundaryPieces.push(
+      Immutable.fromJS({x: i * blockSize, y: heightRatio * blockSize})
+    )
+  }
+
+  for (let i = 0; i < heightRatio; i++) {
+    boundaryPieces = boundaryPieces.push(
+      Immutable.fromJS({x: widthRatio * blockSize, y: i * blockSize})
+    )
+  }
+
+  for (let i= 0; i < heightRatio; i++) {
+    boundaryPieces = boundaryPieces.push(
+      Immutable.fromJS({x: 0 - blockSize, y: i * blockSize})
+    )
+  }
+
+  return boundaryPieces;
+}
+
+export function getCollisionDetector(state, liveIndex, deadIndex) {
   return function() {
     let livePiece = state.get('livePiece');
     let boundaryPieces = state.get('deadPieces');
@@ -10,25 +36,14 @@ export function getCollisionDetector(state, liveSquareIndex, deadSquareIndex) {
     let heightRatio = gameSpec.get('heightRatio');
     let blockSize = gameSpec.get('blockSize');
 
-    // Construct boundaries
-    for (let i = 0; i < widthRatio; i++) {
-      boundaryPieces = boundaryPieces.push(
-        Immutable.fromJS({x: i * blockSize, y: heightRatio * blockSize})
-      )
-      boundaryPieces = boundaryPieces.push(
-        Immutable.fromJS({x: widthRatio * blockSize, y: i * blockSize})
-      )
-      boundaryPieces = boundaryPieces.push(
-        Immutable.fromJS({x: 0 - blockSize, y: i * blockSize})
-      )
-    }
+    boundaryPieces = getBoundaries(boundaryPieces, gameSpec);
 
     let isHitting = boundaryPieces.reduce(function(deadAlreadyHit, deadSquare) {
       let deadDetectedNewHit = livePiece.reduce(function(liveAlreadyHit, liveSquare) {
-        let liveCorner = [liveSquare.get('x') + liveSquareIndex[0] * blockSize,
-                          liveSquare.get('y') + liveSquareIndex[1] * blockSize];
-        let deadCorner = [deadSquare.get('x') + deadSquareIndex[0] * blockSize,
-                          deadSquare.get('y') + deadSquareIndex[1] * blockSize];
+        let liveCorner = [liveSquare.get('x') + liveIndex[0] * blockSize,
+                          liveSquare.get('y') + liveIndex[1] * blockSize];
+        let deadCorner = [deadSquare.get('x') + deadIndex[0] * blockSize,
+                          deadSquare.get('y') + deadIndex[1] * blockSize];
 
         let xCoordsMatch = liveCorner[0] == deadCorner[0];
         let yCoordsMatch = liveCorner[1] == deadCorner[1];
