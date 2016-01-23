@@ -1,6 +1,7 @@
 import * as Immutable from 'immutable'
 import { getColor } from './helpers.js'
-import { hasPieceHitBottom,
+import { getCollisionDetector,
+         hasPieceHitBottom,
          hasPieceHitLeft,
          hasPieceHitRight } from './collisionLogic.js'
 import { lockLivePiece,
@@ -10,15 +11,19 @@ import { lockLivePiece,
 // Return new state representing an object with currentPiece
 // mapping to object of its attributes.
 function setInitialState(state, incomingData) {
+  let width = incomingData.dimensions[0];
+  let height = incomingData.dimensions[1];
+  let size = incomingData.blockSize;
+
   let initialState = Immutable.fromJS({
     gameSpec: {
-      widthRatio: incomingData.dimensions[0],
-      heightRatio: incomingData.dimensions[1],
-      blockSize: incomingData.blockSize
+      widthRatio: width,
+      heightRatio: height,
+      blockSize: size
     },
     livePiece: [],
     deadPieces: []
-  })
+  });
 
   initialState = initiateNewLivePiece(initialState);
 
@@ -28,7 +33,9 @@ function setInitialState(state, incomingData) {
 // Return new state with all yCoordinates of currentPiece
 // descended by the size of the block.
 function descend(state, incomingData) {
-  if (!hasPieceHitBottom(state)) {
+  let isHittingBottom = getCollisionDetector(state, [0, 1], [0, 0]);
+
+  if (!isHittingBottom()) {
     state = state.update('livePiece', (blocks) => {
       return blocks.map((block) => {
         return block.update('y', (yValue) => yValue + 20);
@@ -43,19 +50,23 @@ function descend(state, incomingData) {
 }
 
 function moveLeft(state, incomingData) {
-  if (!hasPieceHitLeft(state)) {
+  let isHittingLeft = getCollisionDetector(state, [0, 0], [1, 0]);
+
+  if (!isHittingLeft()) {
     state = state.update('livePiece', (blocks) => {
       return blocks.map((block) => {
         return block.update('x', (xValue) => xValue - 20);
       });
-    }); 
+    });     
   }
 
   return state; 
 }
 
 function moveRight(state, incomingData) {
-  if (!hasPieceHitRight(state)) {
+  let isHittingRight = getCollisionDetector(state, [1, 0], [0, 0]);
+
+  if (!isHittingRight()) {
     state = state.update('livePiece', (blocks) => {
       return blocks.map((block) => {
           return block.update('x', (xValue) => xValue + 20)
