@@ -62,7 +62,7 @@ export function attemptCollapse(state) {
   return state;
 }
 
-function getPieceCreator(gameSpec) {
+export function getPieceCreator(gameSpec) {
   return function() {
     let creators = [getIPiece, getLPiece, getTPiece, getOPiece,
                     getSPiece, getZPiece, getJPiece]
@@ -73,7 +73,17 @@ function getPieceCreator(gameSpec) {
   }
 }
 
-export function initiateNewLivePiece(state) {
+export function queuePiece(state) {
+  let getNewPiece = getPieceCreator(state.get('gameSpec'));
+
+  state = state.update('queuedPiece', () => {
+    return Immutable.fromJS(getNewPiece());
+  });
+
+  return state;
+}
+
+export function createLivePiece(state) {
   let getNewPiece = getPieceCreator(state.get('gameSpec'));
 
   state = state.update('livePiece', () => {

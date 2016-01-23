@@ -12,8 +12,8 @@ export class PlayingField extends React.Component {
     return (
       <g>
         <rect
-          x="0"
-          y="0"
+          x={this.props.xOffset}
+          y={this.props.yOffset}
           width={widthRatio * blockSize}
           height={heightRatio * blockSize}
           fill="#e6edf0"

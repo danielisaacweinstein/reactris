@@ -5,12 +5,16 @@ import { getCollisionDetector,
          hasPieceHitLeft,
          hasPieceHitRight } from './collisionLogic.js'
 import { lockLivePiece,
-         initiateNewLivePiece,
-         attemptCollapse } from './gameflowLogic.js'
+         createLivePiece,
+         queuePiece,
+         attemptCollapse,
+         getPieceCreator } from './gameflowLogic.js'
 
 // Return new state representing an object with currentPiece
 // mapping to object of its attributes.
 function setInitialState(state, incomingData) {
+
+
   let width = incomingData.dimensions[0];
   let height = incomingData.dimensions[1];
   let size = incomingData.blockSize;
@@ -22,10 +26,12 @@ function setInitialState(state, incomingData) {
       blockSize: size
     },
     livePiece: [],
-    deadPieces: []
+    deadPieces: [],
+    queuedPiece: []
   });
 
-  initialState = initiateNewLivePiece(initialState);
+  initialState = createLivePiece(initialState);
+  initialState = queuePiece(initialState);
 
   return state.merge(initialState)
 }
@@ -43,7 +49,7 @@ function descend(state, incomingData) {
     });
   } else {
     state = lockLivePiece(state);
-    state = initiateNewLivePiece(state);
+    state = createLivePiece(state);
   }
 
   return attemptCollapse(state);

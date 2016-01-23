@@ -8,22 +8,16 @@ import { moveHorizontal, moveLeft, moveRight, descend, rotate } from '../actions
 export class Tetris extends React.Component {
   componentWillMount() {
     document.onkeydown = (e) => {
-      if (e.keyCode === 40) {
+      if (e.keyCode === 40) { // Down arrow
         this.props.dispatch(descend());
       }
-      // if (e.keyCode === 37) {
-      //   this.props.dispatch(moveLeft());
-      // }
-      // if (e.keyCode === 39) {
-      //   this.props.dispatch(moveRight());
-      // }
-      if (e.keyCode === 37) {
+      if (e.keyCode === 37) { // Left arrow
         this.props.dispatch(moveHorizontal(-1));
       }
-      if (e.keyCode === 39) {
+      if (e.keyCode === 39) { // Right arrow
         this.props.dispatch(moveHorizontal(1));
       }
-      if (e.keyCode === 38) {
+      if (e.keyCode === 38) { // Up arrow
         this.props.dispatch(rotate());
       }
     }
@@ -34,6 +28,7 @@ export class Tetris extends React.Component {
       <div className="gameContainer">
         <Game
           livePiece={this.props.livePiece}
+          queuedPiece={this.props.queuedPiece}
           deadPieces={this.props.deadPieces}
           gameSpec={this.props.gameSpec}
         />
@@ -46,6 +41,7 @@ function mapStateToProps(state) {
   console.log(state.toJS());
   return {
     livePiece: state.get('livePiece'),
+    queuedPiece: state.get('queuedPiece'),
     deadPieces: state.get('deadPieces'),
     gameSpec: state.get('gameSpec')
   }
