@@ -1,12 +1,46 @@
 import * as Immutable from 'immutable'
 
 import { getIPiece,
-        getLPiece,
-        getTPiece,
-        getOPiece,
-        getSPiece,
-        getZPiece,
-        getJPiece } from './pieceCreators.js'
+         getLPiece,
+         getTPiece,
+         getOPiece,
+         getSPiece,
+         getZPiece,
+         getJPiece } from './pieceCreators.js'
+
+function deleteRowFromState(state, row) {
+  let deadPieces = state.get('deadPieces');
+
+  while (row.size > 0) {
+    let square = row.last();
+    row = row.pop();
+
+    let squareIndex = deadPieces.findIndex((deadBlock) => {
+      return (deadBlock.get('x') == square.get('x') &&
+              deadBlock.get('y') == square.get('y'))
+    })
+
+    deadPieces = deadPieces.delete(squareIndex);
+    state = state.update('deadPieces', () => {return deadPieces});
+  }
+
+  return state;
+}
+
+function downshiftDeadBlocks(state, yIndex) {
+  let deadPieces = state.get('deadPieces');
+  let blockSize = state.getIn(['gameSpec', 'blockSize']);
+
+  deadPieces = deadPieces.map((currentPiece) => {
+    let currentY = currentPiece.get('y');
+    let isAbove = currentY < yIndex;
+    let shiftValue = isAbove ? blockSize : 0;
+
+    return currentPiece.update('y', () => {return currentY + shiftValue});
+  })
+
+  return state.update('deadPieces', () => {return deadPieces});
+}
 
 export function attemptCollapse(state) {
   let { widthRatio, heightRatio, blockSize } = state.get('gameSpec').toJS();
@@ -20,33 +54,9 @@ export function attemptCollapse(state) {
     });
 
     if (deadPiecesInRow.size == widthRatio) {
-      // Delete blocks
-      while (deadPiecesInRow.size > 0) {
-        let currentDeadPiece = deadPiecesInRow.last();
-        deadPiecesInRow = deadPiecesInRow.pop();
-
-        let indexToDelete = deadPieces.findIndex((deadPiece) => {
-          return (deadPiece.get('x') == currentDeadPiece.get('x') &&
-                  deadPiece.get('y') == currentDeadPiece.get('y'))
-        })
-
-        deadPieces = deadPieces.delete(indexToDelete);
-      }
-      // Downshift blocks above yIndex
-      deadPieces = deadPieces.map((currentPiece) => {
-        let currentY = currentPiece.get('y');
-
-        let isAbove = currentY < yIndex;
-
-        if (isAbove) {
-          return currentPiece.update('y', () => {return currentY + blockSize});
-        } else {
-          return currentPiece.update('y', () => {return currentY});
-        }
-      })
-
+      state = deleteRowFromState(state, deadPiecesInRow);
+      state = downshiftDeadBlocks(state, yIndex);
     }
-    state = state.update('deadPieces', () => {return deadPieces});
   }
 
   return state;
