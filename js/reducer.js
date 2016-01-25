@@ -41,16 +41,16 @@ function setInitialState(state, incomingData) {
 // descended by the size of the block.
 function descend(state, incomingData) {
   let isHittingBottom = getCollisionDetector(state, [0, 1], [0, 0]);
+  let isPaused = state.get('isPaused');
 
-  if (!isHittingBottom()) {
+  if (!isHittingBottom() && !isPaused) {
     state = state.update('livePiece', (blocks) => {
       return blocks.map((block) => {
         return block.update('y', (yValue) => yValue + 20);
       });
     });
-  } else {
+  } else if (isHittingBottom() && !isPaused) {
     state = lockLivePiece(state);
-    // state = createLivePiece(state);
     state = makeQueuedPieceLive(state);
     state = queueNewPiece(state);
   }
@@ -66,8 +66,9 @@ function moveHorizontal(state, incomingData) {
   let [liveIndex, deadIndex] = isLeft ? [[0, 0], [1, 0]] : [[1, 0], [0, 0]];
 
   let isHittingSide = getCollisionDetector(state, liveIndex, deadIndex);
+  let isPaused = state.get('isPaused');
 
-  if (!isHittingSide()) {
+  if (!isHittingSide() && !isPaused) {
     state = state.update('livePiece', (blocks) => {
       return blocks.map((block) => {
         return block.update('x', (xValue) => xValue + xShift * blockSize);
@@ -102,16 +103,19 @@ function getRotatedSquare(pivotSquare, rotatingSquare) {
 
 function rotate(state, incomingData) {
   let piece = state.get('livePiece');
+  let isPaused = state.get('isPaused');
 
-  let pivotSquare = piece.reduce((alreadyFoundPivot, square) => {
-    let squareIsPivot = (square.get('isPivot') == true);
-    return squareIsPivot ? square : alreadyFoundPivot || false
-  }, false);
+  if (!isPaused) {
+    let pivotSquare = piece.reduce((alreadyFoundPivot, square) => {
+      let squareIsPivot = (square.get('isPivot') == true);
+      return squareIsPivot ? square : alreadyFoundPivot || false
+    }, false);
 
-  piece = piece.map((square) => {
-    let isPivot = square.get('isPivot') == true;
-    return isPivot ? square : getRotatedSquare(pivotSquare, square);
-  });
+    piece = piece.map((square) => {
+      let isPivot = square.get('isPivot') == true;
+      return isPivot ? square : getRotatedSquare(pivotSquare, square);
+    });    
+  }
 
   return state.update('livePiece', () => {return piece});
 }

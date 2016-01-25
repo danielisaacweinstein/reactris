@@ -52,6 +52,9 @@ export class Tetris extends React.Component {
   render() {
     return (
       <div className="gameContainer">
+        <h1 className="title">
+          REACTRIS
+        </h1>
         <Game
           livePiece={this.props.livePiece}
           queuedPiece={this.props.queuedPiece}
