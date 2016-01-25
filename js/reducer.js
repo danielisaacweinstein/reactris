@@ -122,6 +122,12 @@ function incrementTime(state, incomingData) {
   });
 }
 
+function togglePause(state, incomingData) {
+  return state.update('isPaused', () => {
+    return state.get('isPaused') ? false : true;
+  })
+}
+
 function reducer(state = Immutable.Map(), action) {
   console.log(action.type);
   switch (action.type) {
@@ -139,6 +145,8 @@ function reducer(state = Immutable.Map(), action) {
       return rotate(state, action.data);
     case 'INCREMENT_TIME':
       return incrementTime(state, action.data);
+    case 'TOGGLE_PAUSE':
+      return togglePause(state, action.data);
   }
   return state;
 }

@@ -8,9 +8,25 @@ import { moveHorizontal,
          moveRight,
          descend,
          rotate,
-         incrementTime } from '../actions.js'
+         incrementTime,
+         togglePause } from '../actions.js'
 
 export class Tetris extends React.Component {
+  playTimers() {
+    window.descendInterval = window.setInterval(() => {
+      this.props.dispatch(descend());
+    }, 750);
+
+    window.timerInterval = window.setInterval(() => {
+      this.props.dispatch(incrementTime());
+    }, 1000);
+  }
+
+  pauseTimers() {
+    window.clearInterval(window.descendInterval);
+    window.clearInterval(window.secondInterval);
+  }
+
   componentWillMount() {
     document.onkeydown = ((e) => {
       if (e.keyCode === 40) { // Down arrow
@@ -25,23 +41,11 @@ export class Tetris extends React.Component {
       if (e.keyCode === 38) { // Up arrow
         this.props.dispatch(rotate());
       }
+      if (e.keyCode === 27) {
+        this.playTimers();
+        this.props.dispatch(togglePause());
+      }
     });
-
-    window.descendInterval = window.setInterval(() => {
-      this.props.dispatch(descend())
-    }, 750);
-
-    window.secondInterval = window.setInterval(() => {
-      this.props.dispatch(incrementTime());
-      console.log(this.props.secondsElapsed);
-    }, 1000);
-
-  }
-
-  componentWillUnmount() {
-    debugger;
-    window.clearInterval(window.descendInterval);
-    window.clearInterval(window.secondInterval);
   }
 
   render() {

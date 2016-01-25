@@ -10,7 +10,7 @@ export function setInitialState() {
 
 export function descend() {
   return {
-    type: "DESCEND"
+    type: 'DESCEND'
   }
 }
 
@@ -25,12 +25,18 @@ export function moveHorizontal(xShift) {
 
 export function rotate() {
   return {
-    type: "ROTATE"
+    type: 'ROTATE'
   }
 }
 
 export function incrementTime() {
   return {
-    type: "INCREMENT_TIME"
+    type: 'INCREMENT_TIME'
+  }
+}
+
+export function togglePause() {
+  return {
+    type: 'TOGGLE_PAUSE'
   }
 }
