@@ -27,15 +27,21 @@ export class Tetris extends React.Component {
       }
     });
 
-    var descendInterval = window.setInterval(() => {
+    window.descendInterval = window.setInterval(() => {
       this.props.dispatch(descend())
     }, 750);
 
-    var secondInterval = window.setInterval(() => {
+    window.secondInterval = window.setInterval(() => {
       this.props.dispatch(incrementTime());
       console.log(this.props.secondsElapsed);
     }, 1000);
 
+  }
+
+  componentWillUnmount() {
+    debugger;
+    window.clearInterval(window.descendInterval);
+    window.clearInterval(window.secondInterval);
   }
 
   render() {
