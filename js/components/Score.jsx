@@ -23,7 +23,7 @@ export class Score extends React.Component {
           y={this.props.yOffset + 110}
           className="score"
         >
-          05:15
+          {this.props.secondsElapsed}
         </text>
       </g>
     )

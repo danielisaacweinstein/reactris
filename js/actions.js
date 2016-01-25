@@ -28,3 +28,9 @@ export function rotate() {
     type: "ROTATE"
   }
 }
+
+export function incrementTime() {
+  return {
+    type: "INCREMENT_TIME"
+  }
+}

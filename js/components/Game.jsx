@@ -33,6 +33,7 @@ export class Game extends React.Component {
           gameSpec={gameSpec}
           xOffset={widthRatio * blockSize}
           yOffset={heightRatio * blockSize / 2}
+          secondsElapsed={this.props.secondsElapsed}
         />
       </svg>
     );

@@ -24,6 +24,8 @@ function setInitialState(state, incomingData) {
       heightRatio: height,
       blockSize: size
     },
+    isPaused: true,
+    secondsElapsed: 0,
     livePiece: [],
     deadPieces: [],
     queuedPiece: []
@@ -114,6 +116,12 @@ function rotate(state, incomingData) {
   return state.update('livePiece', () => {return piece});
 }
 
+function incrementTime(state, incomingData) {
+  return state.update('secondsElapsed', (alreadyElapsed) => {
+    return alreadyElapsed + 1;
+  });
+}
+
 function reducer(state = Immutable.Map(), action) {
   console.log(action.type);
   switch (action.type) {
@@ -129,6 +137,8 @@ function reducer(state = Immutable.Map(), action) {
       return moveHorizontal(state, action.data);
     case 'ROTATE':
       return rotate(state, action.data);
+    case 'INCREMENT_TIME':
+      return incrementTime(state, action.data);
   }
   return state;
 }
