@@ -16,6 +16,11 @@ export class Score extends React.Component {
     return minString + ":" + secString;
   }
 
+  handleClick() {
+    let isPaused = this.props.isPaused;
+    isPaused ? this.props.playTimers() : this.props.pauseTimers();
+  }
+
   render() {
     let gameSpec = this.props.gameSpec;
     let widthRatio = gameSpec.get('widthRatio');
@@ -38,7 +43,15 @@ export class Score extends React.Component {
         >
           {this.formatTime(this.props.secondsElapsed)}
         </text>
+        <text
+          x={this.props.xOffset + 40}
+          y={this.props.yOffset + 150}
+          onClick={this.handleClick.bind(this)}
+        >
+          {this.props.isPaused ? "Paused" : "Playing"}        
+        </text>
       </g>
     )
   }
 }
+

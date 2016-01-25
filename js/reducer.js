@@ -122,9 +122,15 @@ function incrementTime(state, incomingData) {
   });
 }
 
-function togglePause(state, incomingData) {
+function pause(state, incomingData) {
   return state.update('isPaused', () => {
-    return state.get('isPaused') ? false : true;
+    return true;
+  })
+}
+
+function play(state, incomingData) {
+  return state.update('isPaused', () => {
+    return false;
   })
 }
 
@@ -145,8 +151,10 @@ function reducer(state = Immutable.Map(), action) {
       return rotate(state, action.data);
     case 'INCREMENT_TIME':
       return incrementTime(state, action.data);
-    case 'TOGGLE_PAUSE':
-      return togglePause(state, action.data);
+    case 'PAUSE':
+      return pause(state, action.data);
+    case 'PLAY':
+      return play(state, action.data);
   }
   return state;
 }

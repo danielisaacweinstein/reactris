@@ -35,8 +35,14 @@ export function incrementTime() {
   }
 }
 
-export function togglePause() {
+export function pause() {
   return {
-    type: 'TOGGLE_PAUSE'
+    type: 'PAUSE'
+  }
+}
+
+export function play() {
+  return {
+    type: 'PLAY'
   }
 }

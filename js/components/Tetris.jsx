@@ -9,7 +9,8 @@ import { moveHorizontal,
          descend,
          rotate,
          incrementTime,
-         togglePause } from '../actions.js'
+         play,
+         pause } from '../actions.js'
 
 export class Tetris extends React.Component {
   playTimers() {
@@ -20,11 +21,15 @@ export class Tetris extends React.Component {
     window.timerInterval = window.setInterval(() => {
       this.props.dispatch(incrementTime());
     }, 1000);
+
+    this.props.dispatch(play());
   }
 
   pauseTimers() {
     window.clearInterval(window.descendInterval);
-    window.clearInterval(window.secondInterval);
+    window.clearInterval(window.timerInterval);
+
+    this.props.dispatch(pause());
   }
 
   componentWillMount() {
@@ -41,10 +46,6 @@ export class Tetris extends React.Component {
       if (e.keyCode === 38) { // Up arrow
         this.props.dispatch(rotate());
       }
-      if (e.keyCode === 27) {
-        this.playTimers();
-        this.props.dispatch(togglePause());
-      }
     });
   }
 
@@ -57,6 +58,9 @@ export class Tetris extends React.Component {
           deadPieces={this.props.deadPieces}
           gameSpec={this.props.gameSpec}
           secondsElapsed={this.props.secondsElapsed}
+          isPaused={this.props.isPaused}
+          playTimers={this.playTimers.bind(this)}
+          pauseTimers={this.pauseTimers.bind(this)}
         />
       </div>
     );

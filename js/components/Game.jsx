@@ -34,6 +34,9 @@ export class Game extends React.Component {
           xOffset={widthRatio * blockSize}
           yOffset={heightRatio * blockSize / 2}
           secondsElapsed={this.props.secondsElapsed}
+          isPaused={this.props.isPaused}
+          playTimers={this.props.playTimers}
+          pauseTimers={this.props.pauseTimers}
         />
       </svg>
     );
