@@ -37,18 +37,21 @@ export class Score extends React.Component {
           fill="#F3FCFF"
         />
         <text
-          x={this.props.xOffset + 40}
-          y={this.props.yOffset + 110}
-          className="score"
+          x={this.props.xOffset + 100}
+          y={this.props.yOffset + 100}
+          textAnchor="middle"
+          className="time"
         >
           {this.formatTime(this.props.secondsElapsed)}
         </text>
         <text
-          x={this.props.xOffset + 40}
-          y={this.props.yOffset + 150}
+          x={this.props.xOffset + 100}
+          y={this.props.yOffset + 140}
+          textAnchor="middle"
           onClick={this.handleClick.bind(this)}
+          className="pause"
         >
-          {this.props.isPaused ? "Paused" : "Playing"}        
+          {this.props.isPaused ? "PLAY" : "PAUSE"}
         </text>
       </g>
     )

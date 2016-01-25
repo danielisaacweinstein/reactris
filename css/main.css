@@ -3,7 +3,12 @@
   text-align: center;
 }
 
-.score {
+.time {
   font-family: 'Jura', sans-serif;
   font-size: 48px;
+}
+
+.pause {
+  font-family: 'Jura', sans-serif;
+  font-size: 20px;
 }
