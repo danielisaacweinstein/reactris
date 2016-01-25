@@ -12,7 +12,7 @@ export class QueuedPiece extends React.Component {
     let rects = queuedSquares.map((c, index) => {
       return (
         <rect
-          x={c.get('x') + this.props.xOffset - (blockSize)}
+          x={c.get('x') + this.props.xOffset - (1.5 * blockSize)}
           y={c.get('y') + this.props.yOffset + (4 * blockSize)}
           width={blockSize}
           height={blockSize}

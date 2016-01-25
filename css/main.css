@@ -2,3 +2,8 @@
   margin: 20% auto;
   text-align: center;
 }
+
+.score {
+  font-family: 'Jura', sans-serif;
+  font-size: 48px;
+}
