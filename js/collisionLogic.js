@@ -38,8 +38,8 @@ export function getCollisionDetector(state, liveIndex, deadIndex) {
 
     boundaryPieces = getBoundaries(boundaryPieces, gameSpec);
 
-    let isHitting = boundaryPieces.reduce(function(deadAlreadyHit, deadSquare) {
-      let deadDetectedNewHit = livePiece.reduce(function(liveAlreadyHit, liveSquare) {
+    let isHitting = boundaryPieces.reduce((deadAlreadyHit, deadSquare) => {
+      let deadDetectedNewHit = livePiece.reduce((liveAlreadyHit, liveSquare) => {
         let liveCorner = [liveSquare.get('x') + liveIndex[0] * blockSize,
                           liveSquare.get('y') + liveIndex[1] * blockSize];
         let deadCorner = [deadSquare.get('x') + deadIndex[0] * blockSize,
@@ -60,22 +60,21 @@ export function getCollisionDetector(state, liveIndex, deadIndex) {
   }
 }
 
-export function doesOverlap(state, piece) {
+export function doesOverlap(state, currentPiece) {
   let deadPieces = state.get('deadPieces');
   let gameSpec = state.get('gameSpec');
 
   let boundaryPieces = getBoundaries(deadPieces, gameSpec);
 
-  let foundBoundaryHit = boundaryPieces.reduce(function(boundaryAlreadyOverlaps, boundaryPiece) {
-    let foundPieceHit = piece.reduce(function(pieceAlreadyOverlaps, square) {
+  let foundHit = boundaryPieces.reduce((boundaryAlreadyOverlaps, boundaryPiece) => {
+    let currentPieceFoundHit = currentPiece.reduce((pieceAlreadyOverlaps, square) => {
       let currentlyHitting = boundaryPiece.get('x') == square.get('x') &&
                              boundaryPiece.get('y') == square.get('y');
 
       return pieceAlreadyOverlaps || currentlyHitting;
     }, false);
-    return boundaryAlreadyOverlaps || foundPieceHit;
+    return boundaryAlreadyOverlaps || currentPieceFoundHit;
   }, false);
 
-  return foundBoundaryHit;
-
+  return foundHit;
 }
