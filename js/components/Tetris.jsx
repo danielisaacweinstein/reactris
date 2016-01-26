@@ -71,7 +71,6 @@ export class Tetris extends React.Component {
 }
 
 function mapStateToProps(state) {
-  console.log(state.toJS());
   return {
     livePiece: state.get('livePiece'),
     queuedPiece: state.get('queuedPiece'),

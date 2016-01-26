@@ -3,7 +3,8 @@ import { getColor } from './helpers.js'
 import { getCollisionDetector,
          hasPieceHitBottom,
          hasPieceHitLeft,
-         hasPieceHitRight } from './collisionLogic.js'
+         hasPieceHitRight,
+         doesOverlap } from './collisionLogic.js'
 import { lockLivePiece,
          createLivePiece,
          queueNewPiece,
@@ -30,9 +31,6 @@ function setInitialState(state, incomingData) {
     deadPieces: [],
     queuedPiece: []
   });
-
-  initialState = createLivePiece(initialState);
-  initialState = queueNewPiece(initialState);
 
   return state.merge(initialState)
 }
@@ -111,13 +109,17 @@ function rotate(state, incomingData) {
       return squareIsPivot ? square : alreadyFoundPivot || false
     }, false);
 
-    piece = piece.map((square) => {
+    let rotatedPiece = piece.map((square) => {
       let isPivot = square.get('isPivot') == true;
       return isPivot ? square : getRotatedSquare(pivotSquare, square);
-    });    
+    });
+
+    if (!doesOverlap(state, rotatedPiece)) {
+      state = state.update('livePiece', () => {return rotatedPiece});
+    }
   }
 
-  return state.update('livePiece', () => {return piece});
+  return state;
 }
 
 function incrementTime(state, incomingData) {
@@ -133,13 +135,17 @@ function pause(state, incomingData) {
 }
 
 function play(state, incomingData) {
+  if (state.get('livePiece').size === 0) {
+    state = createLivePiece(state);
+    state = queueNewPiece(state);    
+  }
+
   return state.update('isPaused', () => {
     return false;
   })
 }
 
 function reducer(state = Immutable.Map(), action) {
-  console.log(action.type);
   switch (action.type) {
     case 'SET_INITIAL_STATE':
       return setInitialState(state, action.data);

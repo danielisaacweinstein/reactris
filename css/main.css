@@ -7,13 +7,14 @@
   font-family: 'Jura', sans-serif;
   font-size: 52px;
   margin: 10px auto;  
-  color: #39497E;
+  color: #222C4D;
+  letter-spacing: 2px;
 }
 
 .time {
   font-family: 'Jura', sans-serif;
   font-size: 48px;
-  fill: #39497E;
+  fill: #737D9D;
   -moz-user-select: -moz-none;
   -khtml-user-select: none;
   -webkit-user-select: none;
@@ -24,8 +25,7 @@
 .pause {
   font-family: 'Jura', sans-serif;
   font-size: 20px;
-  fill: #39497E;
-
+  fill: #737D9D;
   -moz-user-select: -moz-none;
   -khtml-user-select: none;
   -webkit-user-select: none;

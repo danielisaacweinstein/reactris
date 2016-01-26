@@ -59,3 +59,23 @@ export function getCollisionDetector(state, liveIndex, deadIndex) {
     return isHitting;
   }
 }
+
+export function doesOverlap(state, piece) {
+  let deadPieces = state.get('deadPieces');
+  let gameSpec = state.get('gameSpec');
+
+  let boundaryPieces = getBoundaries(deadPieces, gameSpec);
+
+  let foundBoundaryHit = boundaryPieces.reduce(function(boundaryAlreadyOverlaps, boundaryPiece) {
+    let foundPieceHit = piece.reduce(function(pieceAlreadyOverlaps, square) {
+      let currentlyHitting = boundaryPiece.get('x') == square.get('x') &&
+                             boundaryPiece.get('y') == square.get('y');
+
+      return pieceAlreadyOverlaps || currentlyHitting;
+    }, false);
+    return boundaryAlreadyOverlaps || foundPieceHit;
+  }, false);
+
+  return foundBoundaryHit;
+
+}
