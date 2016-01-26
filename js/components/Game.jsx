@@ -3,7 +3,7 @@
 import React from 'react'
 import { PlayingField } from './PlayingField.jsx'
 import { QueuedPiece } from './QueuedPiece.jsx'
-import { Score } from './Score.jsx'
+import { ControlPanel } from './Score.jsx'
 
 export class Game extends React.Component {
   render() {
@@ -29,7 +29,7 @@ export class Game extends React.Component {
           yOffset={0}
           queuedPiece={this.props.queuedPiece}
         />
-        <Score
+        <ControlPanel
           gameSpec={gameSpec}
           xOffset={widthRatio * blockSize}
           yOffset={heightRatio * blockSize / 2}
