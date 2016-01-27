@@ -21,14 +21,24 @@ export class Tetris extends React.Component {
 
   playTimers() {
     window.descendInterval = window.setInterval(() => {
-      this.props.dispatch(descend());
+      if (!this.props.gameLost) {
+        this.props.dispatch(descend());
+      } else {
+        window.clearInterval(window.descendInterval);
+      }
+
     }, 750);
 
     window.timerInterval = window.setInterval(() => {
-      this.props.dispatch(incrementTime());
+      if (!this.props.gameLost) {
+        this.props.dispatch(incrementTime());
+      } else {
+        window.clearInterval(window.timerInterval);
+      }
+
     }, 1000);
 
-    this.props.dispatch(play());
+    this.props.dispatch(play())
   }
 
   pauseTimers() {

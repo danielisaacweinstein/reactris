@@ -49,7 +49,7 @@ function descend(state, incomingData) {
         return block.update('y', (yValue) => yValue + 20);
       });
     });
-  } else if (isHittingBottom() && !isPaused) {
+  } else if (isHittingBottom() && !isPaused && !gameLost) {
     state = lockLivePiece(state);
     state = makeQueuedPieceLive(state);
     state = queueNewPiece(state);
