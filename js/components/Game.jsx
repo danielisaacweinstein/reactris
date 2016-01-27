@@ -3,7 +3,7 @@
 import React from 'react'
 import { PlayingField } from './PlayingField.jsx'
 import { QueuedPiece } from './QueuedPiece.jsx'
-import { ControlPanel } from './Score.jsx'
+import { ControlPanel } from './ControlPanel.jsx'
 
 export class Game extends React.Component {
   render() {
@@ -37,6 +37,7 @@ export class Game extends React.Component {
           isPaused={this.props.isPaused}
           playTimers={this.props.playTimers}
           pauseTimers={this.props.pauseTimers}
+          resetGame={this.props.resetGame}
         />
       </svg>
     );

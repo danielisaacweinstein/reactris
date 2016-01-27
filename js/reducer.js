@@ -26,6 +26,7 @@ function setInitialState(state, incomingData) {
       blockSize: size
     },
     isPaused: true,
+    gameLost: false,
     secondsElapsed: 0,
     livePiece: [],
     deadPieces: [],
@@ -40,8 +41,9 @@ function setInitialState(state, incomingData) {
 function descend(state, incomingData) {
   let isHittingBottom = getCollisionDetector(state, [0, 1], [0, 0]);
   let isPaused = state.get('isPaused');
+  let gameLost = state.get('gameLost');
 
-  if (!isHittingBottom() && !isPaused) {
+  if (!isHittingBottom() && !isPaused && !gameLost) {
     state = state.update('livePiece', (blocks) => {
       return blocks.map((block) => {
         return block.update('y', (yValue) => yValue + 20);
@@ -51,6 +53,9 @@ function descend(state, incomingData) {
     state = lockLivePiece(state);
     state = makeQueuedPieceLive(state);
     state = queueNewPiece(state);
+    if (doesOverlap(state, state.get('livePiece'))) {
+      state = state.update('gameLost', () => {return true});
+    }
   }
 
   return attemptCollapse(state);
@@ -58,6 +63,7 @@ function descend(state, incomingData) {
 
 function moveHorizontal(state, incomingData) {
   let blockSize = state.getIn(['gameSpec', 'blockSize']);
+  let gameLost = state.get('gameLost');
   let xShift = incomingData.shift;
   let isLeft = xShift === -1;
 
@@ -66,7 +72,7 @@ function moveHorizontal(state, incomingData) {
   let isHittingSide = getCollisionDetector(state, liveIndex, deadIndex);
   let isPaused = state.get('isPaused');
 
-  if (!isHittingSide() && !isPaused) {
+  if (!isHittingSide() && !isPaused && !gameLost) {
     state = state.update('livePiece', (blocks) => {
       return blocks.map((block) => {
         return block.update('x', (xValue) => xValue + xShift * blockSize);
@@ -102,8 +108,9 @@ function getRotatedSquare(pivotSquare, rotatingSquare) {
 function rotate(state, incomingData) {
   let piece = state.get('livePiece');
   let isPaused = state.get('isPaused');
+  let gameLost = state.get('gameLost')
 
-  if (!isPaused) {
+  if (!isPaused && !gameLost) {
     let pivotSquare = piece.reduce((alreadyFoundPivot, square) => {
       let squareIsPivot = (square.get('isPivot') == true);
       return squareIsPivot ? square : alreadyFoundPivot || false

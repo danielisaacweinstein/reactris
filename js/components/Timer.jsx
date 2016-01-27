@@ -25,7 +25,7 @@ export class Timer extends React.Component {
     return (
       <text
         x={this.props.xOffset + 100}
-        y={this.props.yOffset + 100}
+        y={this.props.yOffset + 70}
         textAnchor="middle"
         className="time"
       >

@@ -10,9 +10,15 @@ import { moveHorizontal,
          rotate,
          incrementTime,
          play,
-         pause } from '../actions.js'
+         pause,
+         setInitialState } from '../actions.js'
 
 export class Tetris extends React.Component {
+  resetGame() {
+    this.pauseTimers();
+    this.props.dispatch(setInitialState());
+  }
+
   playTimers() {
     window.descendInterval = window.setInterval(() => {
       this.props.dispatch(descend());
@@ -64,6 +70,7 @@ export class Tetris extends React.Component {
           isPaused={this.props.isPaused}
           playTimers={this.playTimers.bind(this)}
           pauseTimers={this.pauseTimers.bind(this)}
+          resetGame={this.resetGame.bind(this)}
         />
       </div>
     );
@@ -77,7 +84,8 @@ function mapStateToProps(state) {
     deadPieces: state.get('deadPieces'),
     gameSpec: state.get('gameSpec'),
     isPaused: state.get('isPaused'),
-    secondsElapsed: state.get('secondsElapsed')
+    secondsElapsed: state.get('secondsElapsed'),
+    gameLost: state.get('gameLost')
   }
 }
 

@@ -2,10 +2,9 @@
 
 import React from 'react'
 
-export class PlayButton extends React.Component {
+export class ResetButton extends React.Component {
   handleClick() {
-    let isPaused = this.props.isPaused;
-    isPaused ? this.props.playTimers() : this.props.pauseTimers();
+    this.props.resetGame();
   }
 
   render() {
@@ -17,12 +16,12 @@ export class PlayButton extends React.Component {
     return (
       <text
         x={this.props.xOffset + 100}
-        y={this.props.yOffset + 115}
+        y={this.props.yOffset + 160}
         textAnchor="middle"
-        className="pause"
+        className="reset"
         onClick={this.handleClick.bind(this)}
       >
-        {this.props.isPaused ? "PLAY" : "PAUSE"}
+        RESET
       </text>
     )
   }
