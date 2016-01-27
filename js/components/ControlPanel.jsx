@@ -26,6 +26,7 @@ export class ControlPanel extends React.Component {
           xOffset={this.props.xOffset}
           yOffset={this.props.yOffset}
           secondsElapsed={this.props.secondsElapsed}
+          gameLost={this.props.gameLost}
         />
         <PlayButton
           gameSpec={this.props.gameSpec}
@@ -34,12 +35,15 @@ export class ControlPanel extends React.Component {
           isPaused={this.props.isPaused}
           playTimers={this.props.playTimers}
           pauseTimers={this.props.pauseTimers}
+          resetGame={this.props.resetGame}
+          gameLost={this.props.gameLost}
         />
         <ResetButton
           gameSpec={this.props.gameSpec}
           xOffset={this.props.xOffset}
           yOffset={this.props.yOffset}
           resetGame={this.props.resetGame}
+          gameLost={this.props.gameLost}
         />
       </g>
     )

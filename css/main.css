@@ -13,6 +13,7 @@
 
 .time {
   font-family: 'Jura', sans-serif;
+  font-weight: 600;
   font-size: 58px;
   fill: #737D9D;
   -moz-user-select: -moz-none;
@@ -22,9 +23,10 @@
   cursor: default;
 }
 
-.pause {
+.playButton {
   font-family: 'Jura', sans-serif;
   font-size: 30px;
+  font-weight: 600;
   fill: #737D9D;
   -moz-user-select: -moz-none;
   -khtml-user-select: none;
@@ -36,6 +38,7 @@
 .reset {
   font-family: 'Jura', sans-serif;
   font-size: 30px;
+  font-weight: 600;
   fill: #737D9D;
   -moz-user-select: -moz-none;
   -khtml-user-select: none;
@@ -44,8 +47,10 @@
   cursor: pointer;
 }
 
-.gameOver {
-  background-color: black;
-  width: 200px;
-  height: 200px;
+.gameOverEmphasis {
+  fill: #19295D;
+}
+
+.gameOverDeemphasis {
+  fill: #CAD3E0;
 }

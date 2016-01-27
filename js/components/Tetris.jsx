@@ -71,6 +71,7 @@ export class Tetris extends React.Component {
           playTimers={this.playTimers.bind(this)}
           pauseTimers={this.pauseTimers.bind(this)}
           resetGame={this.resetGame.bind(this)}
+          gameLost={this.props.gameLost}
         />
       </div>
     );

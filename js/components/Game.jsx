@@ -38,6 +38,7 @@ export class Game extends React.Component {
           playTimers={this.props.playTimers}
           pauseTimers={this.props.pauseTimers}
           resetGame={this.props.resetGame}
+          gameLost={this.props.gameLost}
         />
       </svg>
     );
