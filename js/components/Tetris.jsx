@@ -84,7 +84,9 @@ export class Tetris extends React.Component {
           gameLost={this.props.gameLost}
         />
         <footer>
-          RC rules!
+          <a href="https://github.com/danielisaacweinstein">Github</a>
+          <span>  •  </span>
+          <a href="https://www.recurse.com">Recurse Center</a>
         </footer>
       </div>
     );

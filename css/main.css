@@ -54,3 +54,12 @@
 .gameOverDeemphasis {
   fill: #CAD3E0;
 }
+
+a {
+  font-family: 'Jura', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  color: #737D9D;
+  margin: 5px auto;
+  text-decoration: none;
+}
