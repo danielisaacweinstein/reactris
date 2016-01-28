@@ -59,7 +59,11 @@ a {
   font-family: 'Jura', sans-serif;
   font-size: 12px;
   font-weight: 600;
-  color: #737D9D;
+  color: #A7B3D8;
   margin: 5px auto;
   text-decoration: none;
+}
+
+a:hover {
+  color: #5076EF
 }
