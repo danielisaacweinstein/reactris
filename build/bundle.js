@@ -27145,7 +27145,12 @@
 	          pauseTimers: this.pauseTimers.bind(this),
 	          resetGame: this.resetGame.bind(this),
 	          gameLost: this.props.gameLost
-	        })
+	        }),
+	        _react2.default.createElement(
+	          'footer',
+	          null,
+	          'RC rules!'
+	        )
 	      );
 	    }
 	  }]);
