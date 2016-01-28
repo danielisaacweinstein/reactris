@@ -18,11 +18,20 @@ export class PlayButton extends React.Component {
   render() {
     let gameSpec = this.props.gameSpec;
     let gameLost = this.props.gameLost;
+    let isPaused = this.props.isPaused;
     let widthRatio = gameSpec.get('widthRatio');
     let heightRatio = gameSpec.get('heightRatio');
     let blockSize = gameSpec.get('blockSize');
 
-    let buttonText = gameLost ? "PLAY AGAIN" : "PLAY";
+    let buttonText = '';
+
+    if (gameLost) {
+      buttonText = "PLAY AGAIN"
+    } else if (isPaused) {
+      buttonText = "PLAY"
+    } else {
+      buttonText = "PAUSE"
+    }
 
     let cssStyling = classNames({
       'playButton': true,

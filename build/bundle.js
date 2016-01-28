@@ -27477,11 +27477,26 @@
 	    value: function render() {
 	      var gameSpec = this.props.gameSpec;
 	      var gameLost = this.props.gameLost;
+	      var isPaused = this.props.isPaused;
 	      var widthRatio = gameSpec.get('widthRatio');
 	      var heightRatio = gameSpec.get('heightRatio');
 	      var blockSize = gameSpec.get('blockSize');
 
-	      var buttonText = gameLost ? "PLAY AGAIN" : "PLAY";
+	      var buttonText = '';
+
+	      // debugger;
+
+	      if (gameLost) {
+	        buttonText = "PLAY AGAIN";
+	      } else if (isPaused) {
+	        buttonText = "PLAY";
+	      } else {
+	        buttonText = "PAUSE";
+	      }
+
+	      // if gameLost
+
+	      // let buttonText = gameLost ? "PLAY AGAIN" : "PLAY";
 
 	      var cssStyling = (0, _classnames2.default)({
 	        'playButton': true,
