@@ -27484,8 +27484,6 @@
 
 	      var buttonText = '';
 
-	      // debugger;
-
 	      if (gameLost) {
 	        buttonText = "PLAY AGAIN";
 	      } else if (isPaused) {
@@ -27493,10 +27491,6 @@
 	      } else {
 	        buttonText = "PAUSE";
 	      }
-
-	      // if gameLost
-
-	      // let buttonText = gameLost ? "PLAY AGAIN" : "PLAY";
 
 	      var cssStyling = (0, _classnames2.default)({
 	        'playButton': true,
