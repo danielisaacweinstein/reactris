@@ -83,6 +83,9 @@ export class Tetris extends React.Component {
           resetGame={this.resetGame.bind(this)}
           gameLost={this.props.gameLost}
         />
+        <footer>
+          RC rules!
+        </footer>
       </div>
     );
   }
