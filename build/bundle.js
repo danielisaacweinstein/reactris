@@ -26751,7 +26751,21 @@
 	        _react2.default.createElement(
 	          'footer',
 	          null,
-	          'RC rules!'
+	          _react2.default.createElement(
+	            'a',
+	            { href: 'https://github.com/danielisaacweinstein' },
+	            'Github'
+	          ),
+	          _react2.default.createElement(
+	            'span',
+	            null,
+	            '  •  '
+	          ),
+	          _react2.default.createElement(
+	            'a',
+	            { href: 'https://www.recurse.com' },
+	            'Recurse Center'
+	          )
 	        )
 	      );
 	    }
